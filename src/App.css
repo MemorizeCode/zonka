@@ -1,38 +1,160 @@
-.App {
-  text-align: center;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background: linear-gradient(rgb(70, 27, 56) 15%, rgb(19, 18, 48) 75%);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header{
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+.header button{
+  width: 200px;
+  height: 45px;
+  color: white;
+  border-radius: none;
+  outline: none;
+  font-size: 20px;
+  background-color: rgb(210, 49, 128);
+  border-radius: 25px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: bolder;
+  margin-top: 30px;
+  margin-left: 10px;
+}
+.main{
+  display: flex;
+}
+
+.counter{
+  width: 400px;
+  border: 2px solid white;
+  -webkit-box-shadow: 4px 100px 100px 61px rgba(101, 131, 154, 0.2);
+  -moz-box-shadow: 4px 100px 100px 61px rgba(101, 131, 154, 0.2);
+  box-shadow: 4px 100px 100px 61px rgba(101, 131, 154, 0.2);
+
+}
+
+.name{
+  margin-top: 15px;
+  margin-left: 15px;
+}
+.name h2{
+  color:white;
+}
+.name img {
+  width: 25%;
+  border-radius: 25px;
+}
+.counters{
+  border: 1px solid white;
+  width: 250px;
+  height: 450px;
+}
+ul > li {
+  color: white;
+  font-weight: bolder;
+  font-size: 20px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.counters h2{
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.counters button{
+  width: 200px;
+  height: 45px;
+  color: white;
+  border-radius: none;
+  outline: none;
+  font-size: 20px;
+  background-color: rgb(210, 49, 128);
+  border-radius: 25px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.kombinajii p {
+  color: white;
+}
+.samo_pole{
+  width:550px ;
+  height: 800px;
+  border: 1px solid white;
+}
+.vseymnojiteli {
+  width: 200px;
+  margin-left: 50px;
+}
+.kombinajii{
+  margin-left: 50px;
+}
+.ymnojitli{
+  display: flex;
+}
+.ymnojitli > div{
+  color: white;
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.sheker{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.samo_pole{
+  position: relative;
+}
+.all{
+  width: 54px;
+  height: 54px;
+  background-color: rgb(44, 20, 80);
+  border-radius: 5px;
+  border: 1px solid black;
+  margin-left: 5px;
+  margin-top: 5px;
+
+}
+.blocksone{
+  display: flex;
+}
+.blockstwo{
+  display: flex;
+}
+.blocksthree{
+  display: flex;
+}
+.blocksfour{
+  display: flex;
+}
+.blocksfive{
+  display: flex;
+}
+.blockssix{
+  display: flex;
+}
+.polyakakieto{
+  margin-bottom: 10px;
+  margin-left: 10px;
+  position: absolute;
+  bottom: 0;
+}
+.cubiki{
+  display: flex;
+  flex-wrap: wrap;
+  width: 200px;
+  position: absolute;
+  top: 10%;
+  left: 15%;
+}
+.cub{
+  margin-left: 7px;
+  margin-top: 8px;
+}
+
+.active{
+  border: 2px solid goldenrod;
 }
