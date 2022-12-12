@@ -1,8 +1,9 @@
 
-import { useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './App.css';
 
 function App() {
+    // let map = new Map()
   //Функции
   function exit(){
     alert('Выйти')
@@ -28,110 +29,98 @@ function App() {
     {id:5,title:5, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/5.png"},
     {id:6,title:6, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/6.png"},
   ])
-  
-  let [cubikinapole, setcubikinapole] = useState([
 
+  let [raundco, setraundco] = useState(0)
+  let [debcount, setdebcount] = useState(0)
+  let [raund, setraund] = useState([
+    {id:0, counter:0},
+    {id:1, counter:0},
+    {id:2, counter:0},
+    {id:3, counter:0},
+    {id:4, counter:0},
+    {id:5, counter:0},
+    {id:6, counter:0},
+    {id:7, counter:0},
+    {id:8, counter:0},
+    {id:9, counter:0},
   ])
-  
+
+let [stroka,setstroka] = useState(6)
+
+
+  let [cubikinapole, setcubikinapole] = useState([])
+  let [dis, setdisa] = useState(true)
+//   let map = new Map()
   let list = []
   function sheker(){
     for(let i=0;i<6;i++){
-    //   let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
+      let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
       let obj = {
         id: Date.now() + Math.random(),
-        title: cubs[i].title,
-        img: cubs[i].img
+        title: cubs[randomcub].title,
+        img: cubs[randomcub].img
       }
       list.push(obj)
     }
     setcubikinapole([...cubikinapole, ...list])
-    //счет?
     posa()
-
   }
+  
 
-let [debcount, setdebcount] = useState(0)
   let map = new Map()
-
+  
   function posa(){
-      for(let key of list){
-        if(map.has(key.title) == false){
-
-            map.set(key.title, 1)
-        }
-        else{
-          
-            map.set(key.title, map.get(key.title)+1)
-        }
-    }
-    console.log(map)
-    let com2 = new Map([
-        [1,1],
-        [2,1],
-        [3,1],
-        [4,1],
-        [5,1],
-        [6,1],
-    ])
-    console.log(com2)
-    if(map == com2){
-        console.log('СТРИТ')
-    }   
-    for(let z of map){
-
-        // console.log([z[0],z[1]])
-        //СТРИТ
-        // console.log(z[0],z[1])
-   
-        // else{
-        //     //КУБИКИ ЕДИНИЧКИ
-        //     if(z[0] == 1 && z[1] >= 1 && z[1] !== 3){
-        //         console.log('Единичка весит 100')
-        //         setdebcount(debcount+=100 *  z[1])
-        //         // document.getElementById(z[0]).classList.add('active') 
-        //     }
-        //     if(z[0] == 1 && z[1] == 3){
-        //         console.log('Единичка весит 1000')
-        //         setdebcount(debcount+=1000)
-        //     }
-        //     //КУБИКИ ДВОЙКИ
-        //     if(z[0] == 2 && z[1] == 3){
-        //         console.log('Двойка весит 200')
-        //         setdebcount(debcount+=200)
-        //     }
-        //     //КУБИК ТРОЙКА
-        //     if(z[0] == 3 && z[1] == 3 && z[1]){
-        //         console.log('Тройка весит 300')
-        //         setdebcount(debcount+=300)
-        //     }
-        //     //КУБИК ЧЕТВЕРКА
-        //     if(z[0] == 4 && z[1] == 3){
-        //         console.log('Четверка весит 400')
-        //         setdebcount(debcount+=400)
-        //     }
-        //     //КУБИК ПЯТЕРКА
-        //     if(z[0] == 5 && z[1] == 3){
-        //         console.log('Пятерка весит 500')
-        //         setdebcount(debcount+=500)
-        //     }
-        //     if(z[0] == 6 && z[1] == 3){
-        //         console.log('Шестерка весит 600')
-        //         setdebcount(debcount+=600)
-        //     }
-        //     //КУБИК 2
-        //     if(z[0] == 2 && z[1] >= 1 && z[1] !== 3){
-        //         console.log('Двойка весит весит 50')
-        //         setdebcount(debcount+=50 * z[1])
-        //     }
-        // }
-    }
-    // console.log(map)
+          for(let key of list){
+            if(map.has(key.title) == false){
+                map.set(key.title, 1)
+            }
+            else{
+                map.set(key.title, map.get(key.title)+1)
+            }
+        } 
   }
+    function save(){
+        if(debcount <300){
+            console.log('Вы не можете сохранить')
+        }else{
+            console.log('вы можете сохранить')
+            setraund([...raund, raund[raundco].counter += debcount])
+            // setraund(raund.at())
+            // setraund([...raund[raundco], raund[raundco].counter += debcount])
+            setraundco(raundco = raundco + 1)
+            setdebcount(debcount = 0)
+            setcubikinapole(cubikinapole = [])
+            list = []
+            map = []
 
+        }
+    }
+    function deletea(){
+        list = []
+        map = []
+        setcubikinapole(cubikinapole = [])
+        console.log(list)
+        console.log(cubikinapole)
+        console.log(map)
 
+    }
+    let sa = new Map()
+    function a(el){
+        for(let key of cubikinapole){
+            if(sa.has(key.title) == false){
+                sa.set(key.title, 1)
+            }
+            else{
+                sa.set(key.title, sa.get(key.title)+1)
+            }
+        }
+        console.log(cubikinapole)
+        console.log(el)
+        console.log(sa)
+    }
   return (
     <div className="App">
-     <div className="container">
+     <div className="container" id='test'>
         <div className="header">
             <button onClick={()=>exit}>Выйти</button>
             <button onClick={()=>music}>Выключить звук</button>
@@ -145,19 +134,13 @@ let [debcount, setdebcount] = useState(0)
                 </div>
                 <div className="counters">
                     <ul>
-                        <li>1.</li>
-                        <li>2.</li>
-                        <li>3.</li>
-                        <li>4.</li>
-                        <li>5.</li>
-                        <li>6.</li>
-                        <li>7.</li>
-                        <li>8.</li>
-                        <li>9.</li>
-                        <li>10.</li>
+                    {raund.map(el=>
+                        <li key={el.id}>{el.id + 1 +'. '+ el.counter}</li>
+                        )}
                     </ul>
                     <h2>Общий счет</h2>
-                    <button>Сохранить</button>
+                    <button onClick={()=>save()}>Сохранить</button>
+                    <button onClick={()=>deletea()}>Очистить поле</button>
                 </div>
             </div>
             <div className="pole">
@@ -171,11 +154,11 @@ let [debcount, setdebcount] = useState(0)
                   <div className='cubiki'>
                     {cubikinapole.length !== 0 ? 
                     cubikinapole.map((el)=>
-                    <div className='cub' key={el.id} id={el.title}>
-                      <img src={el.img} onClick={()=>posa()} />
+                    <div id='cub' key={el.id} className={el.title} onClick={()=>a(el)}>
+                      <img src={el.img} />
                     </div>
                     )
-                    : console.log('их нет') }
+                    : console.log() }
                   </div>
                     <div className="sheker">
                         <img src="https://www.zonkpro.ru/zonk/assets/shakers/1.png" alt="" onClick={()=>sheker()}/>
@@ -207,7 +190,7 @@ let [debcount, setdebcount] = useState(0)
                             <div className="blockfive all"></div>
                         </div>
                         <div className="blockssix">
-                            <div className="blocksix all"></div>
+                            <div id="blocksix" className="blocksix all"></div>
                             <div className="blocksix all"></div>
                             <div className="blocksix all"></div>
                             <div className="blocksix all"></div>
