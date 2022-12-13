@@ -48,7 +48,9 @@ function App() {
 let [stroka,setstroka] = useState(6)
 
 
-  let [cubikinapole, setcubikinapole] = useState([])
+  let [cubikinapole, setcubikinapole] = useState([
+
+  ])
   let [dis, setdisa] = useState(true)
 //   let map = new Map()
   let list = []
@@ -104,20 +106,76 @@ let [stroka,setstroka] = useState(6)
         console.log(map)
 
     }
+    // for(let key of cubikinapole){
+        //     if(sa.has(key.title) == false){
+            //         sa.set(key.title, 1)
+            //     }
+            //     else{
+                //         sa.set(key.title, sa.get(key.title)+1)
+                //     }
+                // }
     let sa = new Map()
+    let com3 = Object.fromEntries([
+        [1,2], [3,2] , [6,2]
+    ])
+    let com4 = Object.fromEntries([
+        [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
+    ])
+    let com1 = Object.fromEntries([
+        [1,1]
+    ])
     function a(el){
-        for(let key of cubikinapole){
-            if(sa.has(key.title) == false){
-                sa.set(key.title, 1)
+            if(sa.has(el.title) == false){
+                sa.set(el.title, 1)
+                console.log('net new')
             }
             else{
-                sa.set(key.title, sa.get(key.title)+1)
+                sa.set(el.title, sa.get(el.title)+1)
+                console.log('est')
+            }
+        console.log(sa)
+
+
+
+
+        //Проверяем комбинацию 3пары
+        if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
+            setdebcount(debcount+=750)
+            console.log('3пары + 750очков')
+        }
+        //Проверяем комбинацию стрит
+        if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa))){
+            setdebcount(debcount+=1500)
+            console.log('Стрит! + 1500очков')
+        }
+        for(let z of sa){
+            //Комбинация 1
+            if(z[0] == 1 && z[1] < 3){
+                console.log('100')
+            }else if(z[0] == 1 && z[1] > 3){
+                console.log('1000' * 2)
+            }else{
+                console.log('1000')
+            }
+            //Комбинация 5
+            if(z[0] == 5 && z[1] < 3){
+                console.log('50')
+            }else if(z[0] == 5 && z[1] > 3){
+                console.log('500' * 2)
+            }else if(z[0]==5 && z[1] == 3){
+                console.log('500')
+            }
+
+            if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
+                // console.log('Их 3')
+                console.log('Сумма к прибовлению: '+ z[1] + '00')
+            }
+            if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
+                console.log('Сумма к прибовлению: '+ z[0] * 2 + '00')
             }
         }
-        console.log(cubikinapole)
-        console.log(el)
-        console.log(sa)
-    }
+        }
+    
   return (
     <div className="App">
      <div className="container" id='test'>
@@ -214,7 +272,7 @@ let [stroka,setstroka] = useState(6)
                     <img src="https://www.zonkpro.ru/zonk/assets/dice/mini/1.png" alt="" /><p>100</p>
                 </div>
                 <div className="five">
-                    <img src="https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" alt="" /><p>50</p>
+                    <img src="https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" alt="" /><p>50</p>
                 </div>
                 <div className="one_3">
                     <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/1.png" alt=""/>
