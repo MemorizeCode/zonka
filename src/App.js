@@ -1,4 +1,4 @@
-
+import {Howl, Howler} from 'howler';
 import { useEffect, useState, useRef } from 'react';
 import './App.css';
 
@@ -28,8 +28,9 @@ function App() {
     {id:4,title:4, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/4.png"},
     {id:5,title:5, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/5.png"},
     {id:6,title:6, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/6.png"},
+    
   ])
-
+  let [winner , setwinner] = useState(0)
   let [raundco, setraundco] = useState(0)
   let [debcount, setdebcount] = useState(0)
   let [raund, setraund] = useState([
@@ -51,16 +52,15 @@ let [stroka,setstroka] = useState(6)
   let [cubikinapole, setcubikinapole] = useState([
 
   ])
-  let [dis, setdisa] = useState(true)
-//   let map = new Map()
+
   let list = []
   function sheker(){
     for(let i=0;i<6;i++){
       let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
       let obj = {
         id: Date.now() + Math.random(),
-        title: cubs[randomcub].title,
-        img: cubs[randomcub].img
+        title: cubs[i].title,
+        img: cubs[i].img
       }
       list.push(obj)
     }
@@ -70,7 +70,6 @@ let [stroka,setstroka] = useState(6)
   
 
   let map = new Map()
-  
   function posa(){
           for(let key of list){
             if(map.has(key.title) == false){
@@ -79,24 +78,11 @@ let [stroka,setstroka] = useState(6)
             else{
                 map.set(key.title, map.get(key.title)+1)
             }
-        } 
-  }
-    function save(){
-        if(debcount <300){
-            console.log('Вы не можете сохранить')
-        }else{
-            console.log('вы можете сохранить')
-            setraund([...raund, raund[raundco].counter += debcount])
-            // setraund(raund.at())
-            // setraund([...raund[raundco], raund[raundco].counter += debcount])
-            setraundco(raundco = raundco + 1)
-            setdebcount(debcount = 0)
-            setcubikinapole(cubikinapole = [])
-            list = []
-            map = []
-
         }
-    }
+        console.log(map)
+
+  }
+
     function deletea(){
         list = []
         map = []
@@ -106,14 +92,7 @@ let [stroka,setstroka] = useState(6)
         console.log(map)
 
     }
-    // for(let key of cubikinapole){
-        //     if(sa.has(key.title) == false){
-            //         sa.set(key.title, 1)
-            //     }
-            //     else{
-                //         sa.set(key.title, sa.get(key.title)+1)
-                //     }
-                // }
+
     let sa = new Map()
     let com3 = Object.fromEntries([
         [1,2], [3,2] , [6,2]
@@ -121,10 +100,15 @@ let [stroka,setstroka] = useState(6)
     let com4 = Object.fromEntries([
         [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
     ])
-    let com1 = Object.fromEntries([
-        [1,1]
-    ])
+    
+
     function a(el){
+        var sound = new Howl({
+            src: ['i.mp3']
+          });
+          
+          sound.play();
+         
             if(sa.has(el.title) == false){
                 sa.set(el.title, 1)
                 console.log('net new')
@@ -133,10 +117,6 @@ let [stroka,setstroka] = useState(6)
                 sa.set(el.title, sa.get(el.title)+1)
                 console.log('est')
             }
-        console.log(sa)
-
-
-
 
         //Проверяем комбинацию 3пары
         if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
@@ -148,34 +128,58 @@ let [stroka,setstroka] = useState(6)
             setdebcount(debcount+=1500)
             console.log('Стрит! + 1500очков')
         }
-        for(let z of sa){
-            //Комбинация 1
-            if(z[0] == 1 && z[1] < 3){
-                console.log('100')
-            }else if(z[0] == 1 && z[1] > 3){
-                console.log('1000' * 2)
-            }else{
-                console.log('1000')
-            }
-            //Комбинация 5
-            if(z[0] == 5 && z[1] < 3){
-                console.log('50')
-            }else if(z[0] == 5 && z[1] > 3){
-                console.log('500' * 2)
-            }else if(z[0]==5 && z[1] == 3){
-                console.log('500')
-            }
+  
 
+
+
+
+        for(let z of sa){       
             if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
                 // console.log('Их 3')
-                console.log('Сумма к прибовлению: '+ z[1] + '00')
+                console.log('Сумма к прибовлению: '+ z[0] + '00')
+                debcount+= Number(z[0] + '00')
             }
-            if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
+            else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
                 console.log('Сумма к прибовлению: '+ z[0] * 2 + '00')
+                debcount+= Number(z[0] * 2 + '00')
+                debcount=  debcount - (z[0]+ '00')
             }
         }
-        }
+        win()
+        cubikinapole.filter(p=> p.id !== el.id)
+    }
+
+function win(){
+    setdebcount(debcount)
+    if(debcount > 300){
+        console.log('вы можете сохранить')
+    }else{
+        console.log('вы не можете сохранить')
+    }
     
+}
+
+function save(){
+    if(debcount <300){
+        console.log('Вы не можете сохранить')
+    }else{
+        console.log('вы можете сохранить')
+        raund = raund[raundco].counter += debcount
+        // setraund(raund.at())
+        // setraund([...raund[raundco], raund[raundco].counter += debcount])
+
+        setraundco(raundco = raundco + 1)
+        setdebcount(debcount = 0)
+        setcubikinapole(cubikinapole = [])
+        list = []
+        map = []
+        summafff()
+    }
+}
+    function summafff(){
+        // console.log(raund)
+        setwinner(winner+=raund)
+    }
   return (
     <div className="App">
      <div className="container" id='test'>
@@ -193,9 +197,10 @@ let [stroka,setstroka] = useState(6)
                 <div className="counters">
                     <ul>
                     {raund.map(el=>
-                        <li key={el.id}>{el.id + 1 +'. '+ el.counter}</li>
+                        <li key={el.id}>{el.id +') '+ el.counter}</li>
                         )}
                     </ul>
+                    <h1>{winner  >= 5000 ? 'Ты набрал много очков!' : 'Ты пока не выйграл'}</h1>
                     <h2>Общий счет</h2>
                     <button onClick={()=>save()}>Сохранить</button>
                     <button onClick={()=>deletea()}>Очистить поле</button>
