@@ -1,4 +1,5 @@
 import {Howl, Howler} from 'howler';
+
 import { useEffect, useState, useRef } from 'react';
 import './App.css';
 
@@ -80,9 +81,7 @@ let [stroka,setstroka] = useState(6)
             }
         }
         console.log(map)
-
   }
-
     function deletea(){
         list = []
         map = []
@@ -90,9 +89,7 @@ let [stroka,setstroka] = useState(6)
         console.log(list)
         console.log(cubikinapole)
         console.log(map)
-
     }
-
     let sa = new Map()
     let com3 = Object.fromEntries([
         [1,2], [3,2] , [6,2]
@@ -101,14 +98,8 @@ let [stroka,setstroka] = useState(6)
         [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
     ])
     
-
+    let aa = 0
     function a(el){
-        var sound = new Howl({
-            src: ['i.mp3']
-          });
-          
-          sound.play();
-         
             if(sa.has(el.title) == false){
                 sa.set(el.title, 1)
                 console.log('net new')
@@ -117,7 +108,6 @@ let [stroka,setstroka] = useState(6)
                 sa.set(el.title, sa.get(el.title)+1)
                 console.log('est')
             }
-
         //Проверяем комбинацию 3пары
         if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
             setdebcount(debcount+=750)
@@ -128,23 +118,59 @@ let [stroka,setstroka] = useState(6)
             setdebcount(debcount+=1500)
             console.log('Стрит! + 1500очков')
         }
-  
-
-
-
-
-        for(let z of sa){       
-            if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
-                
-                console.log('Сумма к прибовлению: '+ z[0] + '00')
-                debcount+= Number(z[0] + '00')
+        //1
+        if(sa.has(el.title) && el.title == 1){
+            if(sa.get(el.title) <= 2){
+                if(JSON.stringify(com4) !== JSON.stringify(Object.fromEntries(sa))){
+                    console.log('sdsdsd')
+                }else{
+                    console.log(100)
+                    debcount+=100
+                }
             }
-            else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
-                console.log('Сумма к прибовлению: '+ z[0] * 2 + '00')
-                debcount+= Number(z[0] * 2 + '00')
-                debcount=  debcount - (z[0]+ '00')
+            if(sa.get(el.title) == 3){
+                console.log(1000)
+                debcount+=1000
+            }
+            if(sa.get(el.title) > 3){
+                console.log(1000 * 2)
+                debcount+=1000*2
             }
         }
+        if(sa.has(el.title) && el.title == 5){
+            if(sa.get(el.title) <= 2){
+                if(JSON.stringify(com4) !== JSON.stringify(Object.fromEntries(sa))){
+                    console.log('sdsdsd')
+                }else{
+                    console.log(50)
+                    debcount+=50
+                }
+            }
+            if(sa.get(el.title) == 3){
+                console.log(500)
+                debcount+=500
+            }
+            if(sa.get(el.title) > 3){
+                console.log(500 * 2)
+                debcount+=500*2
+            }
+        }
+        else{
+            return false
+        }
+        for(let z of sa){   
+                if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
+                    console.log('Сумма к прибовлению: '+ z[0] + '00')
+                    debcount+= Number(z[0] + '00')
+                }
+                else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
+                    console.log('Сумма к прибовлению: '+ z[0] * 2 + '00')
+                    debcount+= Number(z[0] * 2 + '00')
+                    debcount=  debcount - (z[0]+ '00')
+                }
+           
+        }
+        
         win()
         cubikinapole.filter(p=> p.id !== el.id)
     }
@@ -165,9 +191,6 @@ function save(){
     }else{
         console.log('вы можете сохранить')
         raund = raund[raundco].counter += debcount
-        // setraund(raund.at())
-        // setraund([...raund[raundco], raund[raundco].counter += debcount])
-
         setraundco(raundco = raundco + 1)
         setdebcount(debcount = 0)
         setcubikinapole(cubikinapole = [])
@@ -176,12 +199,27 @@ function save(){
         summafff()
     }
 }
+
     function summafff(){
         // console.log(raund)
         setwinner(winner+=raund)
     }
+
+    function as() {
+        var audio = new Audio(); // Создаём новый элемент Audio
+        audio.src = 'best.mp4'; // Указываем путь к звуку "клика"
+        audio.autoplay = true; // Автоматически запускаем
+      }
+      const sound = new Howl({
+        src: ['best.mp4']
+      });
+      sound.play();
+      Howler.volume(0.5);
+
+
   return (
     <div className="App">
+        <button onClick={()=>as}>a</button>
      <div className="container" id='test'>
         <div className="header">
             <button onClick={()=>exit}>Выйти</button>
@@ -195,6 +233,7 @@ function save(){
                     <h3>Debug counter: {debcount}</h3>
                 </div>
                 <div className="counters">
+                <audio src="best.mp3"></audio>
                     <ul>
                     {raund.map(el=>
                         <li key={el.id}>{el.id +') '+ el.counter}</li>
