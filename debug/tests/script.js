@@ -368,3 +368,39 @@
         //         }
         //     console.log(sa)
         // }
+
+
+
+        // if(sa.has(el.title) == false){
+        //         sa.set(el.title, 1)
+        //         console.log('net new')
+        //     }
+        //     else{
+        //         sa.set(el.title, sa.get(el.title)+1)
+        //         console.log('est')
+        //     }
+        // //Проверяем комбинацию 3пары
+        // if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
+        //     setdebcount(debcount+=750)
+        //     console.log('3пары + 750очков')
+        // }
+        // //Проверяем комбинацию стрит
+        // if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa))){
+        //     setdebcount(debcount+=1500)
+        //     console.log('Стрит! + 1500очков')
+        // }
+  
+        // for(let z of sa){       
+        //     if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
+                
+        //         console.log('Сумма к прибовлению: '+ z[0] + '00')
+        //         debcount+= Number(z[0] + '00')
+        //     }
+        //     else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
+        //         console.log('Сумма к прибовлению: '+ z[0] * 2 + '00')
+        //         debcount+= Number(z[0] * 2 + '00')
+        //         debcount=  debcount - (z[0]+ '00')
+        //     }
+        // }
+        // win()
+        // // cubikinapole.filter(p=> p.id !== el.id)
