@@ -60,8 +60,8 @@ let [stroka,setstroka] = useState(6)
       let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
       let obj = {
         id: Date.now() + Math.random(),
-        title: cubs[i].title,
-        img: cubs[i].img
+        title: cubs[3].title,
+        img: cubs[3].img
       }
       list.push(obj)
     }
@@ -98,7 +98,7 @@ let [stroka,setstroka] = useState(6)
         [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
     ])
     
-    let aa = 0
+
     function a(el){
             if(sa.has(el.title) == false){
                 sa.set(el.title, 1)
@@ -108,77 +108,23 @@ let [stroka,setstroka] = useState(6)
                 sa.set(el.title, sa.get(el.title)+1)
                 console.log('est')
             }
-        //Проверяем комбинацию 3пары
-        if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
-            setdebcount(debcount+=750)
-            console.log('3пары + 750очков')
-        }
-        //Проверяем комбинацию стрит
         if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa))){
-            setdebcount(debcount+=1500)
-            console.log('Стрит! + 1500очков')
+            console.log('Стрит')
         }
-        //1
-        if(sa.has(el.title) && el.title == 1){
-            if(sa.get(el.title) <= 2){
-                if(JSON.stringify(com4) !== JSON.stringify(Object.fromEntries(sa))){
-                    console.log('sdsdsd')
-                }else{
-                    console.log(100)
-                    debcount+=100
-                }
-            }
-            if(sa.get(el.title) == 3){
-                console.log(1000)
-                debcount+=1000
-            }
-            if(sa.get(el.title) > 3){
-                console.log(1000 * 2)
-                debcount+=1000*2
-            }
+        if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
+            console.log('3пары')
         }
-        if(sa.has(el.title) && el.title == 5){
-            if(sa.get(el.title) <= 2){
-                if(JSON.stringify(com4) !== JSON.stringify(Object.fromEntries(sa))){
-                    console.log('sdsdsd')
-                }else{
-                    console.log(50)
-                    debcount+=50
-                }
-            }
-            if(sa.get(el.title) == 3){
-                console.log(500)
-                debcount+=500
-            }
-            if(sa.get(el.title) > 3){
-                console.log(500 * 2)
-                debcount+=500*2
-            }
+        if(el.title != 1 || el.title != 5){
+
         }
-        else{
-            return false
-        }
-        for(let z of sa){   
-                if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
-                    console.log('Сумма к прибовлению: '+ z[0] + '00')
-                    debcount+= Number(z[0] + '00')
-                }
-                else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
-                    console.log('Сумма к прибовлению: '+ z[0] * 2 + '00')
-                    debcount+= Number(z[0] * 2 + '00')
-                    debcount=  debcount - (z[0]+ '00')
-                }
-           
-        }
-        
-        win()
-        cubikinapole.filter(p=> p.id !== el.id)
+        console.log(debcount)
     }
 
 function win(){
-    setdebcount(debcount)
+    
     if(debcount > 300){
         console.log('вы можете сохранить')
+        // setdebcount(debcount)
     }else{
         console.log('вы не можете сохранить')
     }
@@ -191,6 +137,8 @@ function save(){
     }else{
         console.log('вы можете сохранить')
         raund = raund[raundco].counter += debcount
+
+
         setraundco(raundco = raundco + 1)
         setdebcount(debcount = 0)
         setcubikinapole(cubikinapole = [])
