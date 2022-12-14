@@ -359,3 +359,12 @@
 //     }
 // }       
 // }
+        // for(let z of sa){
+        //         if(z[0] == el.title && z[1] == 3){
+        //             setdebcount(debcount+= Number(z[0] + '00'))
+        //         }
+        //         if(z[0] == el.title && z[1] > 3 ){
+        //             setdebcount(debcount+=Number((z[0]*2) + '00'))
+        //         }
+        //     console.log(sa)
+        // }
