@@ -135,7 +135,7 @@ let [stroka,setstroka] = useState(6)
 
         for(let z of sa){       
             if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
-                // console.log('Их 3')
+                
                 console.log('Сумма к прибовлению: '+ z[0] + '00')
                 debcount+= Number(z[0] + '00')
             }
