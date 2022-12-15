@@ -1,6 +1,6 @@
 import {Howl, Howler} from 'howler';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import './App.css';
 
 function App() {
@@ -12,23 +12,17 @@ function App() {
 
   let [music_stat, set_music_stat] = useState(1)
   function music(){
-    if(music_stat){
-      alert('Выключить звук')
-      set_music_stat(music_stat = 0)
-    }else{
-      alert('Включить звук')
-      set_music_stat(music_stat = 1)
-    }
+    alert('V razrabotke')
   }
 
   
   let [cubs, setcubs] = useState([
-    {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png"},
-    {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png"},
-    {id:3,title:3, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/3.png"},
-    {id:4,title:4, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/4.png"},
-    {id:5,title:5, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/5.png"},
-    {id:6,title:6, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/6.png"},
+    {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
+    {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" , style: 'none'},
+    {id:3,title:3, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" , style: 'none'},
+    {id:4,title:4, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/4.png" , style: 'none'},
+    {id:5,title:5, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" , style: 'none'},
+    {id:6,title:6, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/6.png" , style: 'none'},
     
   ])
   let [winner , setwinner] = useState(0)
@@ -47,11 +41,7 @@ function App() {
     {id:9, counter:0},
   ])
 
-let [stroka,setstroka] = useState(6)
-
-
   let [cubikinapole, setcubikinapole] = useState([
-
   ])
 
   let list = []
@@ -60,8 +50,9 @@ let [stroka,setstroka] = useState(6)
       let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
       let obj = {
         id: Date.now() + Math.random(),
-        title: cubs[3].title,
-        img: cubs[3].img
+        title: cubs[randomcub].title,
+        img: cubs[randomcub].img,
+        style: cubs[randomcub].style,
       }
       list.push(obj)
     }
@@ -69,9 +60,17 @@ let [stroka,setstroka] = useState(6)
     posa()
   }
   
-
+  let com3 = Object.fromEntries([
+    [1,2], [3,2] , [6,2]
+])
+let com4 = Object.fromEntries([
+    [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
+])
   let map = new Map()
+  let strit = 0
+  let th = 0
   function posa(){
+    let list2 = list
           for(let key of list){
             if(map.has(key.title) == false){
                 map.set(key.title, 1)
@@ -81,24 +80,57 @@ let [stroka,setstroka] = useState(6)
             }
         }
         console.log(map)
+        if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(map))){
+           console.log('Выпал стрит')
+           strit++
+        }
+        if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(map))){
+            console.log('Выпали 3пары')
+            th++
+        }
+        for(let ff of map){
+            if(!strit || !th){
+                //Проверять наличие комбинации
+                // if((ff[0] == 1 || ff[0] == 5) && ff[1] >= 1){
+                //     console.log('1 and 5 Можно взять')
+                // }
+                // if(ff[1] >= 3 ){
+                //     console.log('2,3,4,6 можно взять')
+                // }else{
+                //     console.log('не хватает какойто 3')
+                // }
+                //Убедится что работает правильно
+                if(ff[0] == 1 && ff[1] >= 1){
+                    console.log('1 можно взять')
+                }
+                if(ff[0] == 2 && ff[1] >= 3){
+                    console.log('3 можно взять')
+                }
+                if(ff[0] == 3 && ff[1] >= 3){
+                    console.log('3 можно взять')
+                }
+                if(ff[0] == 4 && ff[1] >= 3){
+                    console.log('4 можно взять')
+                }
+                if(ff[0] == 5 && ff[1] >= 1){
+                    console.log('5 можно взять')
+                }
+                if(ff[0] == 6 && ff[1] >= 3){
+                    console.log('6 можно взять')
+                }
+            }
+        }
   }
     function deletea(){
         list = []
         map = []
+        sa = []
         setcubikinapole(cubikinapole = [])
-        console.log(list)
-        console.log(cubikinapole)
-        console.log(map)
+        strit = 0
+        th = 0
+        debcount = 0
     }
     let sa = new Map()
-    let com3 = Object.fromEntries([
-        [1,2], [3,2] , [6,2]
-    ])
-    let com4 = Object.fromEntries([
-        [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
-    ])
-    
-
     function a(el){
             if(sa.has(el.title) == false){
                 sa.set(el.title, 1)
@@ -110,27 +142,53 @@ let [stroka,setstroka] = useState(6)
             }
         if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa))){
             console.log('Стрит')
+            debcount+=1500
         }
         if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
             console.log('3пары')
+            debcount+=750
         }
-        if(el.title != 1 || el.title != 5){
-
+        for(let z of sa){
+            if(z[0] != 5 && z[0] != 1){
+                if(z[1] == 3){
+                    debcount+= Number(z[0] + '00')
+                }
+                else if(z[1] >= 3){
+                    debcount= debcount - Number(z[0] + '00')   
+                    debcount+= Number(z[0] * 2 + '00')
+                }
+            }
+    }
+    if(sa.has(el.title) && el.title == 1){
+        if(sa.get(el.title) <= 2){
+            debcount+=100
         }
-        console.log(debcount)
+        else if(sa.get(el.title) == 3){
+            debcount+= Number(el.title + '000') - 200
+        }
+        else if(sa.get(el.title) >= 4){
+            debcount+= Number(el.title + '000') 
+        }
     }
 
-function win(){
-    
-    if(debcount > 300){
-        console.log('вы можете сохранить')
-        // setdebcount(debcount)
-    }else{
-        console.log('вы не можете сохранить')
+    if(sa.has(el.title) && el.title == 5){
+        if(sa.get(el.title) <= 2){
+            debcount+=50
+        }
+        else if(sa.get(el.title) == 3){
+            debcount+= Number(el.title + '00') 
+        }
+        else if(sa.get(el.title) >= 4){
+            debcount+= Number(el.title + '00') 
+        }
     }
-    
+
+    win()
+    console.log('Общая сумма: ' + Number(debcount))
 }
+function win(){
 
+}
 function save(){
     if(debcount <300){
         console.log('Вы не можете сохранить')
@@ -144,14 +202,10 @@ function save(){
         setcubikinapole(cubikinapole = [])
         list = []
         map = []
-        summafff()
+        
     }
 }
 
-    function summafff(){
-        // console.log(raund)
-        setwinner(winner+=raund)
-    }
 
     function as() {
         var audio = new Audio(); // Создаём новый элемент Audio
@@ -204,7 +258,7 @@ function save(){
                   <div className='cubiki'>
                     {cubikinapole.length !== 0 ? 
                     cubikinapole.map((el)=>
-                    <div id='cub' key={el.id} className={el.title} onClick={()=>a(el)}>
+                    <div id='cub' key={el.id} className={el.style} onClick={()=>a(el)}>
                       <img src={el.img} />
                     </div>
                     )

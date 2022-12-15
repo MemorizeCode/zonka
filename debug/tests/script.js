@@ -404,3 +404,41 @@
         // }
         // win()
         // // cubikinapole.filter(p=> p.id !== el.id)
+
+
+        // if(el.title != 1 || el.title != 5){
+        //         if(sa.get(el.title) == 3){
+        //             debcount+= Number(el.title + '00')
+        //         }
+        //         else if(sa.get(el.title) >= 4){
+        //          debcount+= Number(el.title * 2 + '00')
+        //         }
+        //     }
+        //     if(el.title == 1){
+        //         if(sa.get(el.title) <= 2){
+        //             // console.log(100)
+        //             debcount+= Number(el.title + '00')
+        //         }
+        //         else if(sa.get(el.title) == 3){
+        //             // console.log(1000)
+        //             debcount+= 1000
+        //         }
+        //         else if(sa.get(el.title) >= 4){
+        //             // console.log(Number(el.title * 2 + '000'))
+        //             debcount+= Number(el.title * 2 + '00')
+        //         }
+        //     }
+        //     if(el.title == 5){
+        //         if(sa.get(el.title) <= 2){
+        //             // console.log(50)
+        //             debcount+= 50
+        //         }
+        //         else if(sa.get(el.title) == 3){
+        //             // console.log(500)
+        //             debcount+=500
+        //         }
+        //         else if(sa.get(el.title) >= 4){
+        //             // console.log(500 * 2)
+        //             debcount+=500 * 2
+        //         }
+        //     }
