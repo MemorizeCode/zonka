@@ -82,20 +82,20 @@ let com4 = Object.fromEntries([
         console.log(map)
         if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(map))){
            console.log('Выпал стрит')
-           for(let i=0;i<list.length;i++){
-            list[i].style = 'active'
+           for(let i=0;i<list2.length;i++){
+            list2[i].style = 'active'
            }
            strit++
         }
         if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(map))){
             console.log('Выпали 3пары')
-            for(let i=0;i<list.length;i++){
-                list[i].style = 'active'
+            for(let i=0;i<list2.length;i++){
+                list2[i].style = 'active'
                }
             th++
         }
         for(let z of map){
-            for(let key of list){
+            for(let key of list2){
                 if(z[0] == 1 || z[0] == 5){
                     if(key.title == z[0]){
                         key.style = 'active'
@@ -107,8 +107,6 @@ let com4 = Object.fromEntries([
                 }
             }
         }
-        console.log(list)
-
         
   }
     function deletea(){
@@ -122,6 +120,7 @@ let com4 = Object.fromEntries([
     }
     let sa = new Map()
     function a(el){
+        console.log(el.title)
             if(sa.has(el.title) == false){
                 sa.set(el.title, 1)
                 console.log('net new')
@@ -130,49 +129,51 @@ let com4 = Object.fromEntries([
                 sa.set(el.title, sa.get(el.title)+1)
                 console.log('est')
             }
-        if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa))){
-            console.log('Стрит')
-            debcount+=1500
+            if(el.title != 1 || el.title != 5){
+                for(let z of sa){   
+                    if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
+                        console.log('Сумма к прибовлению: '+ z[0] + '00')
+                        debcount+= Number(z[0] + '00')
+                    }
+                    else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
+                        console.log('Сумма к прибовлению: '+ z[0] * 2 + '00')
+                        debcount+= Number(z[0] * 2 + '00')
+                        debcount=  debcount - (z[0]+ '00')
+                    }}
         }
-        if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
-            console.log('3пары')
-            debcount+=750
-        }
-        for(let z of sa){
-            if(z[0] != 5 && z[0] != 1){
-                if(z[1] == 3){
-                    debcount+= Number(z[0] + '00')
-                }
-                else if(z[1] >= 3){
-                    debcount= debcount - Number(z[0] + '00')   
-                    debcount+= Number(z[0] * 2 + '00')
-                }
+        if(sa.has(el.title) && el.title == 1){
+            if(sa.get(el.title) <= 2){
+                debcount+=100
             }
-    }
-    if(sa.has(el.title) && el.title == 1){
-        if(sa.get(el.title) <= 2){
-            debcount+=100
+            else if(sa.get(el.title) == 3){
+                debcount+= Number(el.title + '000') - 200
+            }
+            else if(sa.get(el.title) >= 4){
+                debcount+= Number(el.title + '000') 
+            }
         }
-        else if(sa.get(el.title) == 3){
-            debcount+= Number(el.title + '000') - 200
+        if(sa.has(el.title) && el.title == 5){
+            if(sa.get(el.title) <= 2){
+                debcount+=50
+            }
+            else if(sa.get(el.title) == 3){
+                debcount+= Number(el.title + '00') - 100
+            }
+            else if(sa.get(el.title) >= 4){
+                debcount+= Number(el.title + '00') 
+            }
         }
-        else if(sa.get(el.title) >= 4){
-            debcount+= Number(el.title + '000') 
-        }
-    }
-
-    if(sa.has(el.title) && el.title == 5){
-        if(sa.get(el.title) <= 2){
-            debcount+=50
-        }
-        else if(sa.get(el.title) == 3){
-            debcount+= Number(el.title + '00') 
-        }
-        else if(sa.get(el.title) >= 4){
-            debcount+= Number(el.title + '00') 
-        }
-    }
-
+            if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa))){
+                console.log('Стрит')
+                // debcount+=1500
+                debcount= 1500
+            }
+            if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
+                console.log('3пары')
+                // debcount+=750
+                debcount = 750
+            }
+  
     win()
     console.log('Общая сумма: ' + Number(debcount))
 }
