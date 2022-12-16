@@ -82,44 +82,34 @@ let com4 = Object.fromEntries([
         console.log(map)
         if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(map))){
            console.log('Выпал стрит')
+           for(let i=0;i<list.length;i++){
+            list[i].style = 'active'
+           }
            strit++
         }
         if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(map))){
             console.log('Выпали 3пары')
+            for(let i=0;i<list.length;i++){
+                list[i].style = 'active'
+               }
             th++
         }
-        for(let ff of map){
-            if(!strit || !th){
-                //Проверять наличие комбинации
-                // if((ff[0] == 1 || ff[0] == 5) && ff[1] >= 1){
-                //     console.log('1 and 5 Можно взять')
-                // }
-                // if(ff[1] >= 3 ){
-                //     console.log('2,3,4,6 можно взять')
-                // }else{
-                //     console.log('не хватает какойто 3')
-                // }
-                //Убедится что работает правильно
-                if(ff[0] == 1 && ff[1] >= 1){
-                    console.log('1 можно взять')
-                }
-                if(ff[0] == 2 && ff[1] >= 3){
-                    console.log('3 можно взять')
-                }
-                if(ff[0] == 3 && ff[1] >= 3){
-                    console.log('3 можно взять')
-                }
-                if(ff[0] == 4 && ff[1] >= 3){
-                    console.log('4 можно взять')
-                }
-                if(ff[0] == 5 && ff[1] >= 1){
-                    console.log('5 можно взять')
-                }
-                if(ff[0] == 6 && ff[1] >= 3){
-                    console.log('6 можно взять')
+        for(let z of map){
+            for(let key of list){
+                if(z[0] == 1 || z[0] == 5){
+                    if(key.title == z[0]){
+                        key.style = 'active'
+                    }
+                }else if(z[1] >= 3){
+                    if(key.title == z[0]){
+                        key.style = 'active'
+                    }
                 }
             }
         }
+        console.log(list)
+
+        
   }
     function deletea(){
         list = []
