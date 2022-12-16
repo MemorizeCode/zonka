@@ -180,7 +180,11 @@ let com4 = Object.fromEntries([
     console.log('Общая сумма: ' + Number(debcount))
 }
 function win(){
-
+    if(debcount>300){
+        console.log('вы можете сохранить')
+    }else{
+        console.log('пока нельзя сохранить')
+    }
 }
 function save(){
     if(debcount <300){
