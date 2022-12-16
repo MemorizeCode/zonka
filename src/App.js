@@ -45,19 +45,27 @@ function App() {
   ])
 
   let list = []
+  
+  let [btndi,se] = useState(true) //разрешаем брать
   function sheker(){
-    for(let i=0;i<6;i++){
-      let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
-      let obj = {
-        id: Date.now() + Math.random(),
-        title: cubs[randomcub].title,
-        img: cubs[randomcub].img,
-        style: cubs[randomcub].style,
-      }
-      list.push(obj)
+
+    if(btndi){
+        for(let i=0;i<6;i++){
+          let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
+          let obj = {
+            id: Date.now() + Math.random(),
+            title: cubs[randomcub].title,
+            img: cubs[randomcub].img,
+            style: cubs[randomcub].style,
+          }
+          list.push(obj)
+        }
+        setcubikinapole([...cubikinapole, ...list])
+        posa()
+    }else{
+        console.log('вы должны взять кубики которые ')
     }
-    setcubikinapole([...cubikinapole, ...list])
-    posa()
+    
   }
   
   let com3 = Object.fromEntries([
@@ -69,8 +77,9 @@ let com4 = Object.fromEntries([
   let map = new Map()
   let strit = 0
   let th = 0
+  let list2 = list
+  let est = 0
   function posa(){
-    let list2 = list
           for(let key of list){
             if(map.has(key.title) == false){
                 map.set(key.title, 1)
@@ -79,7 +88,6 @@ let com4 = Object.fromEntries([
                 map.set(key.title, map.get(key.title)+1)
             }
         }
-        console.log(map)
         if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(map))){
            console.log('Выпал стрит')
            for(let i=0;i<list2.length;i++){
@@ -107,8 +115,34 @@ let com4 = Object.fromEntries([
                 }
             }
         }
-        
+        for(let i=0;i<list2.length;i++){
+            if(list2[i].style == 'none'){
+                est++
+            }
+        }
+        if(est==6){
+            console.log('комбинаций нет')
+            se(btndi = true)
+            setTimeout(()=>{
+                alert('зонк')
+                list = []
+                map = []
+                sa = []
+                setcubikinapole(cubikinapole = [])
+                strit = 0
+                th = 0
+                debcount = 0
+            })
+        }else{
+            console.log('комбинаций есть')
+            // btndi = false
+            se(btndi = false)
+        }
+        console.log(btndi)
+
   }
+
+
     function deletea(){
         list = []
         map = []
@@ -119,87 +153,104 @@ let com4 = Object.fromEntries([
         debcount = 0
     }
     let sa = new Map()
-
     //f
     function a(el){
-        console.log(el.title)
             if(sa.has(el.title) == false){
                 sa.set(el.title, 1)
-                console.log('net new')
             }
             else{
                 sa.set(el.title, sa.get(el.title)+1)
-                console.log('est')
             }
             if(el.title != 1 || el.title != 5){
                 for(let z of sa){   
                     if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
-                        console.log('Сумма к прибовлению: '+ z[0] + '00')
                         debcount+= Number(z[0] + '00')
+                        
                     }
                     else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
-                        console.log('Сумма к прибовлению: '+ z[0] * 2 + '00')
                         debcount+= Number(z[0] * 2 + '00')
                         debcount=  debcount - (z[0]+ '00')
+                        
                     }}
         }
         if(sa.has(el.title) && el.title == 1){
             if(sa.get(el.title) <= 2){
                 debcount+=100
+                
             }
             else if(sa.get(el.title) == 3){
                 debcount+= Number(el.title + '000') - 200
+                
             }
             else if(sa.get(el.title) >= 4){
                 debcount+= Number(el.title + '000') 
+                
             }
         }
         if(sa.has(el.title) && el.title == 5){
             if(sa.get(el.title) <= 2){
                 debcount+=50
+
             }
             else if(sa.get(el.title) == 3){
                 debcount+= Number(el.title + '00') - 100
+
             }
             else if(sa.get(el.title) >= 4){
                 debcount+= Number(el.title + '00') 
+
             }
         }
             if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa))){
                 console.log('Стрит')
                 // debcount+=1500
                 debcount= 1500
+                
             }
             if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
                 console.log('3пары')
                 // debcount+=750
                 debcount = 750
+                
             }
-  
-    win()
+          //удаляем элемент если он active из поле
+          if(el.style == 'active'){
+            let obj = {
+                id:el.id,
+                title:el.title,
+                img:el.img,
+                style: 'vibran'
+            }
+            console.log(cubikinapole)
+        }
     console.log('Общая сумма: ' + Number(debcount))
 }
+
+
+
+
 function win(){
+    setdebcount(debcount)
     if(debcount>300){
-        console.log('вы можете сохранить')
+        alert('вы можете сохранить или продолжить')
     }else{
         console.log('пока нельзя сохранить')
     }
 }
 function save(){
+    se(btndi = true)
     if(debcount <300){
         console.log('Вы не можете сохранить')
     }else{
         console.log('вы можете сохранить')
         raund = raund[raundco].counter += debcount
-
-
         setraundco(raundco = raundco + 1)
         setdebcount(debcount = 0)
         setcubikinapole(cubikinapole = [])
         list = []
         map = []
-        
+        list2 =[]
+        sa= []
     }
 }
 
@@ -209,16 +260,16 @@ function save(){
         audio.src = 'best.mp4'; // Указываем путь к звуку "клика"
         audio.autoplay = true; // Автоматически запускаем
       }
-      const sound = new Howl({
-        src: ['best.mp4']
-      });
-      sound.play();
-      Howler.volume(0.5);
-
+      function give(){
+        alert('пока делаю')
+      }
+   
+    
 
   return (
     <div className="App">
         <button onClick={()=>as}>a</button>
+
      <div className="container" id='test'>
         <div className="header">
             <button onClick={()=>exit}>Выйти</button>
@@ -242,6 +293,8 @@ function save(){
                     <h2>Общий счет</h2>
                     <button onClick={()=>save()}>Сохранить</button>
                     <button onClick={()=>deletea()}>Очистить поле</button>
+                    <h2>DEBUG</h2>
+                    <button onClick={()=>give()}>Дать 300очков "console"</button>
                 </div>
             </div>
             <div className="pole">
