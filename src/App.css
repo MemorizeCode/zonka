@@ -161,3 +161,6 @@ ul > li {
 .vibran{
   border: 2px solid green;
 }
+.hidden{
+  opacity: 0;
+}
