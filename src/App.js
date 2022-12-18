@@ -1,3 +1,4 @@
+import { clear } from '@testing-library/user-event/dist/clear';
 import {Howl, Howler} from 'howler';
 
 import { useEffect, useState, useRef, useMemo } from 'react';
@@ -46,10 +47,10 @@ function App() {
 
   let list = []
   
-  let [btndi,se] = useState(true) //разрешаем брать
+  let [btndi,setbtn] = useState(true) //разрешаем брать
   function sheker(){
-
     if(btndi){
+        setbtn(btndi = false)
         for(let i=0;i<6;i++){
           let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
           let obj = {
@@ -62,10 +63,11 @@ function App() {
         }
         setcubikinapole([...cubikinapole, ...list])
         posa()
-    }else{
+    }
+    else{
         console.log('вы должны взять кубики которые ')
     }
-    
+    console.log(list, cubikinapole)
   }
   
   let com3 = Object.fromEntries([
@@ -74,18 +76,20 @@ function App() {
 let com4 = Object.fromEntries([
     [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
 ])
-  let map = new Map()
+  let [map,setmap] = useState(new Map(null))
   let strit = 0
   let th = 0
   let list2 = list
   let est = 0
+  console.log(map)
   function posa(){
+    new Map(map)
           for(let key of list){
             if(map.has(key.title) == false){
-                map.set(key.title, 1)
+                setmap(map =map.set(key.title, 1))
             }
             else{
-                map.set(key.title, map.get(key.title)+1)
+                setmap(map =map.set(key.title, map.get(key.title)+1))
             }
         }
         if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(map))){
@@ -117,140 +121,140 @@ let com4 = Object.fromEntries([
         }
         for(let i=0;i<list2.length;i++){
             if(list2[i].style == 'none'){
-                est++
+                est = est + 1
             }
         }
         if(est==6){
             console.log('комбинаций нет')
-            se(btndi = true)
+            setbtn(btndi = true)
             setTimeout(()=>{
                 alert('зонк')
                 list = []
-                map = []
-                sa = []
+                list = []
+                setmap(map = [])
+                setsa(sa2= [])
                 setcubikinapole(cubikinapole = [])
+                setdebcount(debcount= 'ZONK')
                 strit = 0
                 th = 0
                 debcount = 0
             })
-        }else{
+        }
+        else{
             console.log('комбинаций есть')
             // btndi = false
-            se(btndi = false)
+            setbtn(btndi = false)
         }
-        console.log(btndi)
-
   }
 
 
-    function deletea(){
-        list = []
-        map = []
-        sa = []
-        setcubikinapole(cubikinapole = [])
-        strit = 0
-        th = 0
-        debcount = 0
-    }
-    let sa = new Map()
+    let [sa2, setsa] = useState(new Map())
     //f
-    function a(el){
-            if(sa.has(el.title) == false){
-                sa.set(el.title, 1)
-            }
-            else{
-                sa.set(el.title, sa.get(el.title)+1)
-            }
+    function a(el){        
+        if(sa2.has(el.title) == false){
+            setsa(sa2.set(el.title, 1))
+        }
+        else{
+            setsa(sa2.set(el.title, sa2.get(el.title)+1))
+        }
+        if(el.style == 'active'){
+            el.style = 'hidden'
             if(el.title != 1 || el.title != 5){
-                for(let z of sa){   
+                for(let z of sa2){   
                     if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
-                        debcount+= Number(z[0] + '00')
+                        setdebcount(debcount = debcount+ Number(z[0] + '00'))
                         
                     }
                     else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
-                        debcount+= Number(z[0] * 2 + '00')
-                        debcount=  debcount - (z[0]+ '00')
+                        setdebcount(debcount = debcount + Number(z[0] * 2 + '00'))
+                        setdebcount(debcount = debcount - (z[0]+ '00'))
                         
                     }}
         }
-        if(sa.has(el.title) && el.title == 1){
-            if(sa.get(el.title) <= 2){
-                debcount+=100
-                
+        if(sa2.has(el.title) && el.title == 1){
+            if(sa2.get(el.title) <= 2){
+                setdebcount(debcount = debcount + Number(100))
+                el.style = 'hidden'
             }
-            else if(sa.get(el.title) == 3){
-                debcount+= Number(el.title + '000') - 200
-                
+            else if(sa2.get(el.title) == 3){
+                setdebcount(debcount = debcount+ Number(el.title + '000') - 200)
+                el.style = 'hidden'
             }
-            else if(sa.get(el.title) >= 4){
-                debcount+= Number(el.title + '000') 
-                
-            }
-        }
-        if(sa.has(el.title) && el.title == 5){
-            if(sa.get(el.title) <= 2){
-                debcount+=50
-
-            }
-            else if(sa.get(el.title) == 3){
-                debcount+= Number(el.title + '00') - 100
-
-            }
-            else if(sa.get(el.title) >= 4){
-                debcount+= Number(el.title + '00') 
-
+            else if(sa2.get(el.title) >= 4){
+                setdebcount(debcount = debcount + Number(el.title + '000') )
+                el.style = 'hidden'
             }
         }
-            if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa))){
+        if(sa2.has(el.title) && el.title == 5){
+            if(sa2.get(el.title) <= 2){
+                setdebcount(debcount = debcount+ 50)
+                el.style = 'hidden'
+            }
+            else if(sa2.get(el.title) == 3){
+                setdebcount(debcount = debcount + Number(el.title + '00') - 100)
+                el.style = 'hidden'
+            }
+            else if(sa2.get(el.title) >= 4){
+                setdebcount(debcount = debcount + Number(el.title + '00'))
+                el.style = 'hidden'
+            }
+        }
+        if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(map))){
+            el.style = 'hidden'
+            if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa2))){
                 console.log('Стрит')
-                // debcount+=1500
-                debcount= 1500
-                
+                setdebcount(debcount+= debcount + 1500)
             }
-            if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa))){
-                console.log('3пары')
-                // debcount+=750
-                debcount = 750
-                
-            }
-          //удаляем элемент если он active из поле
-          if(el.style == 'active'){
-            let obj = {
-                id:el.id,
-                title:el.title,
-                img:el.img,
-                style: 'vibran'
-            }
-            console.log(cubikinapole)
         }
-    console.log('Общая сумма: ' + Number(debcount))
+            if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa2))){
+                console.log('3пары')
+                setdebcount(debcount=750)
+            }
+            setcubikinapole([...cubikinapole])
+            console.log('Общая сумма: ' + Number(debcount))
+        }
+        win()
+        combim()
+}
+function combim(){
+    let none = cubikinapole
+    let active = cubikinapole
+    let fnone = none.filter(el=>el.style == 'none').length
+    let factive = active.filter(el=> el.style == 'active').length
+    if(debcount < 300 && fnone > 0 && factive==0){
+        console.log('у вас нет комбинация гг')
+        setTimeout(() => {
+            setsa(sa2 = new Map())
+            setmap(map = new Map())
+            setcubikinapole(cubikinapole = [])
+            setbtn(btndi = true)
+            console.log(cubikinapole,list,list2,map,sa2)
+        }, 1000);
+    }
+
 }
 
-
-
-
 function win(){
-    setdebcount(debcount)
-    if(debcount>300){
+    if(debcount>=300){
         alert('вы можете сохранить или продолжить')
     }else{
         console.log('пока нельзя сохранить')
     }
 }
 function save(){
-    se(btndi = true)
+    setbtn(btndi = true)
     if(debcount <300){
         console.log('Вы не можете сохранить')
     }else{
         console.log('вы можете сохранить')
-        raund = raund[raundco].counter += debcount
+        raund = raund[raundco].counter = debcount
         setraundco(raundco = raundco + 1)
-        setdebcount(debcount = 0)
+        setdebcount(debcount = debcount)
         setcubikinapole(cubikinapole = [])
         list = []
-        map = []
         list2 =[]
-        sa= []
+        setsa(sa2 = new Map())
+        setmap(map = new Map())
     }
 }
 
@@ -292,7 +296,6 @@ function save(){
                     <h1>{winner  >= 5000 ? 'Ты набрал много очков!' : 'Ты пока не выйграл'}</h1>
                     <h2>Общий счет</h2>
                     <button onClick={()=>save()}>Сохранить</button>
-                    <button onClick={()=>deletea()}>Очистить поле</button>
                     <h2>DEBUG</h2>
                     <button onClick={()=>give()}>Дать 300очков "console"</button>
                 </div>
