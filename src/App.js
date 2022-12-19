@@ -40,7 +40,7 @@ function App() {
     {id:8, counter:0},
     {id:9, counter:0},
   ])
-
+  let [res,setres] = useState(0)
   let [cubikinapole, setcubikinapole] = useState([])
 
   let list = []
@@ -53,9 +53,9 @@ function App() {
           let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
           let obj = {
             id: Date.now() + Math.random(),
-            title: cubs[i].title,
-            img: cubs[i].img,
-            style: cubs[i].style,
+            title: cubs[randomcub].title,
+            img: cubs[randomcub].img,
+            style: cubs[randomcub].style,
           }
           list.push(obj)
         }
@@ -126,16 +126,17 @@ let com4 = Object.fromEntries([
             console.log('комбинаций нет')
             setbtn(btndi = true)
             setTimeout(()=>{
-                alert('зонк')
+                console.log('зонк')
                 list = []
-                list = []
-                setmap(map = [])
-                setsa(sa2= [])
+                list2 = []
+                setsa(sa2 = new Map())
+                setmap(map = new Map())
                 setcubikinapole(cubikinapole = [])
-                setdebcount(debcount= 'ZONK')
+                setdebcount(debcount = 'ZONK')
                 strit = 0
                 th = 0
                 debcount = 0
+                save()
             })
         }
         else{
@@ -146,7 +147,7 @@ let com4 = Object.fromEntries([
 
 
     let [sa2, setsa] = useState(new Map())
-    function a(el){        
+    function a(el){ 
         if(sa2.has(el.title) == false){
             setsa(sa2.set(el.title, 1))
         }
@@ -227,33 +228,43 @@ function combim(){
             setmap(map = new Map())
             setcubikinapole(cubikinapole = [])
             setbtn(btndi = true)
-            console.log(cubikinapole,list,list2,map,sa2)
-        }, 1000);
+        }, 10);
     }
-
+    if(factive == 0){
+        setbtn(btndi  = true)
+        setsa(sa2 = new Map())
+        setmap(map = new Map())
+        setcubikinapole(cubikinapole = [])
+    }
+    if(factive == 0 && fnone == 0){
+        setbtn(btndi = false)
+    }
 }
 
-function win(){
+function win(el){
     if(debcount>=300){
-        alert('вы можете сохранить или продолжить')
+        console.log('вы можете сохранить или продолжить')
     }else{
         console.log('пока нельзя сохранить')
     }
 }
+let [c,setc] = useState(0)
 function save(){
-    setbtn(btndi = true)
     if(debcount <300){
         console.log('Вы не можете сохранить')
     }else{
+        setbtn(btndi = true)
         console.log('вы можете сохранить')
         raund = raund[raundco].counter = debcount
         setraundco(raundco = raundco + 1)
+        setres(res= res + debcount)
         setdebcount(debcount = 0)
         setcubikinapole(cubikinapole = [])
         list = []
         list2 =[]
         setsa(sa2 = new Map())
         setmap(map = new Map())
+        console.log('res: ' + res)
     }
 }
 
@@ -266,9 +277,6 @@ function save(){
       function give(){
         alert('пока делаю')
       }
-   
-    
-
   return (
     <div className="App">
         <button onClick={()=>as}>a</button>
@@ -292,11 +300,9 @@ function save(){
                         <li key={el.id}>{el.id +') '+ el.counter}</li>
                         )}
                     </ul>
-                    <h1>{winner  >= 5000 ? 'Ты набрал много очков!' : 'Ты пока не выйграл'}</h1>
                     <h2>Общий счет</h2>
                     <button onClick={()=>save()}>Сохранить</button>
-                    <h2>DEBUG</h2>
-                    <button onClick={()=>give()}>Дать 300очков "console"</button>
+                    {res >= 5000 ? <h1>Вы выйгарли</h1> : <h1>Вы пока не выйграли</h1>}
                 </div>
             </div>
             <div className="pole">
@@ -346,12 +352,12 @@ function save(){
                             <div className="blockfive all"></div>
                         </div>
                         <div className="blockssix">
-                            <div id="blocksix" className="blocksix all"></div>
-                            <div className="blocksix all"></div>
-                            <div className="blocksix all"></div>
-                            <div className="blocksix all"></div>
-                            <div className="blocksix all"></div>
-                            <div className="blocksix all"></div>
+                            <div className='blocksix all'/>
+                            <div className='blocksix all'/>
+                            <div className='blocksix all'/>
+                            <div className='blocksix all'/>
+                            <div className='blocksix all'/>
+                            <div className='blocksix all'/>
                         </div>
                     </div>
                 </div>
