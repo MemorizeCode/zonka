@@ -5,18 +5,17 @@ import { useEffect, useState, useRef, useMemo } from 'react';
 import './App.css';
 
 function App() {
-    // let map = new Map()
-  //Функции
+ //Выход
   function exit(){
     alert('Выйти')
   }
-
+  //Звуки
   let [music_stat, set_music_stat] = useState(1)
   function music(){
     alert('V razrabotke')
   }
 
-  
+  //Массив кубиков
   let [cubs, setcubs] = useState([
     {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
     {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" , style: 'none'},
@@ -27,8 +26,8 @@ function App() {
     
   ])
   let [winner , setwinner] = useState(0)
-  let [raundco, setraundco] = useState(0)
-  let [debcount, setdebcount] = useState(0)
+  let [raundco, setraundco] = useState(0) //Текунщий раунд
+  let [debcount, setdebcount] = useState(0) //Счет
   let [raund, setraund] = useState([
     {id:0, counter:0},
     {id:1, counter:0},
@@ -42,8 +41,7 @@ function App() {
     {id:9, counter:0},
   ])
 
-  let [cubikinapole, setcubikinapole] = useState([
-  ])
+  let [cubikinapole, setcubikinapole] = useState([])
 
   let list = []
   
@@ -55,9 +53,9 @@ function App() {
           let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
           let obj = {
             id: Date.now() + Math.random(),
-            title: cubs[randomcub].title,
-            img: cubs[randomcub].img,
-            style: cubs[randomcub].style,
+            title: cubs[i].title,
+            img: cubs[i].img,
+            style: cubs[i].style,
           }
           list.push(obj)
         }
@@ -67,7 +65,6 @@ function App() {
     else{
         console.log('вы должны взять кубики которые ')
     }
-    console.log(list, cubikinapole)
   }
   
   let com3 = Object.fromEntries([
@@ -76,7 +73,8 @@ function App() {
 let com4 = Object.fromEntries([
     [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
 ])
-  let [map,setmap] = useState(new Map(null))
+  let [map,setmap] = useState(new Map())
+
   let strit = 0
   let th = 0
   let list2 = list
@@ -142,14 +140,12 @@ let com4 = Object.fromEntries([
         }
         else{
             console.log('комбинаций есть')
-            // btndi = false
             setbtn(btndi = false)
         }
   }
 
 
     let [sa2, setsa] = useState(new Map())
-    //f
     function a(el){        
         if(sa2.has(el.title) == false){
             setsa(sa2.set(el.title, 1))
@@ -203,13 +199,16 @@ let com4 = Object.fromEntries([
             el.style = 'hidden'
             if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa2))){
                 console.log('Стрит')
-                setdebcount(debcount+= debcount + 1500)
+                setdebcount(debcount = 1500)
             }
         }
+        if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(map))){
+            el.style = 'hidden'
             if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa2))){
                 console.log('3пары')
-                setdebcount(debcount=750)
+                setdebcount(debcount = 750)
             }
+        }
             setcubikinapole([...cubikinapole])
             console.log('Общая сумма: ' + Number(debcount))
         }
@@ -249,7 +248,7 @@ function save(){
         console.log('вы можете сохранить')
         raund = raund[raundco].counter = debcount
         setraundco(raundco = raundco + 1)
-        setdebcount(debcount = debcount)
+        setdebcount(debcount = 0)
         setcubikinapole(cubikinapole = [])
         list = []
         list2 =[]
