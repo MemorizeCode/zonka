@@ -1,7 +1,8 @@
-import { clear } from '@testing-library/user-event/dist/clear';
-import {Howl, Howler} from 'howler';
 
-import { useEffect, useState, useRef, useMemo } from 'react';
+
+ /* eslint-disable */ 
+import matchers from '@testing-library/jest-dom/matchers';
+import {  useState } from 'react';
 import './App.css';
 
 function App() {
@@ -10,13 +11,11 @@ function App() {
     alert('Выйти')
   }
   //Звуки
-  let [music_stat, set_music_stat] = useState(1)
   function music(){
     alert('V razrabotke')
   }
-
   //Массив кубиков
-  let [cubs, setcubs] = useState([
+  let [cubs] = useState([
     {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
     {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" , style: 'none'},
     {id:3,title:3, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" , style: 'none'},
@@ -25,7 +24,6 @@ function App() {
     {id:6,title:6, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/6.png" , style: 'none'},
     
   ])
-  let [winner , setwinner] = useState(0)
   let [raundco, setraundco] = useState(0) //Текунщий раунд
   let [debcount, setdebcount] = useState(0) //Счет
   let [raund, setraund] = useState([
@@ -44,12 +42,15 @@ function App() {
   let [cubikinapole, setcubikinapole] = useState([])
 
   let list = []
-  
-  let [btndi,setbtn] = useState(true) //разрешаем брать
+  let [skok,setskok] = useState(6)
+  let [btndi,setbtn] = useState(true) //разрешаем братьs
   function sheker(){
     if(btndi){
+        setsa(sa2 = new Map())
+        setmap(map = new Map())
+        setcubikinapole(cubikinapole = [])
         setbtn(btndi = false)
-        for(let i=0;i<6;i++){
+        for(let i=0;i<skok;i++){
           let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
           let obj = {
             id: Date.now() + Math.random(),
@@ -83,21 +84,21 @@ let com4 = Object.fromEntries([
   function posa(){
     new Map(map)
           for(let key of list){
-            if(map.has(key.title) == false){
+            if(map.has(key.title) === false){
                 setmap(map =map.set(key.title, 1))
             }
             else{
                 setmap(map =map.set(key.title, map.get(key.title)+1))
             }
         }
-        if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(map))){
+        if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(map))){
            console.log('Выпал стрит')
            for(let i=0;i<list2.length;i++){
             list2[i].style = 'active'
            }
            strit++
         }
-        if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(map))){
+        if(JSON.stringify(com3) === JSON.stringify(Object.fromEntries(map))){
             console.log('Выпали 3пары')
             for(let i=0;i<list2.length;i++){
                 list2[i].style = 'active'
@@ -106,7 +107,7 @@ let com4 = Object.fromEntries([
         }
         for(let z of map){
             for(let key of list2){
-                if(z[0] == 1 || z[0] == 5){
+                if(z[0] === 1 || z[0] === 5){
                     if(key.title == z[0]){
                         key.style = 'active'
                     }
@@ -145,7 +146,7 @@ let com4 = Object.fromEntries([
         }
   }
 
-
+  let kuda = 6
     let [sa2, setsa] = useState(new Map())
     function a(el){ 
         if(sa2.has(el.title) == false){
@@ -158,22 +159,22 @@ let com4 = Object.fromEntries([
             el.style = 'hidden'
             if(el.title != 1 || el.title != 5){
                 for(let z of sa2){   
-                    if(z[0] == el.title && z[1] == 3 && z[0] != 1 && z[0] !=5){
+                    if(z[0] === el.title && z[1] == 3 && z[0] !== 1 && z[0] !==5){
                         setdebcount(debcount = debcount+ Number(z[0] + '00'))
                         
                     }
-                    else if(z[0] == el.title && z[1] > 3 && z[0] != 1 && z[0] != 5){
+                    else if(z[0] === el.title && z[1] > 3 && z[0] !== 1 && z[0] !==5){
                         setdebcount(debcount = debcount + Number(z[0] * 2 + '00'))
                         setdebcount(debcount = debcount - (z[0]+ '00'))
                         
                     }}
         }
-        if(sa2.has(el.title) && el.title == 1){
+        if(sa2.has(el.title) && el.title === 1){
             if(sa2.get(el.title) <= 2){
                 setdebcount(debcount = debcount + Number(100))
                 el.style = 'hidden'
             }
-            else if(sa2.get(el.title) == 3){
+            else if(sa2.get(el.title) === 3){
                 setdebcount(debcount = debcount+ Number(el.title + '000') - 200)
                 el.style = 'hidden'
             }
@@ -182,12 +183,12 @@ let com4 = Object.fromEntries([
                 el.style = 'hidden'
             }
         }
-        if(sa2.has(el.title) && el.title == 5){
+        if(sa2.has(el.title) && el.title === 5){
             if(sa2.get(el.title) <= 2){
                 setdebcount(debcount = debcount+ 50)
                 el.style = 'hidden'
             }
-            else if(sa2.get(el.title) == 3){
+            else if(sa2.get(el.title) === 3){
                 setdebcount(debcount = debcount + Number(el.title + '00') - 100)
                 el.style = 'hidden'
             }
@@ -196,16 +197,16 @@ let com4 = Object.fromEntries([
                 el.style = 'hidden'
             }
         }
-        if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(map))){
+        if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(map))){
             el.style = 'hidden'
-            if(JSON.stringify(com4) == JSON.stringify(Object.fromEntries(sa2))){
+            if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(sa2))){
                 console.log('Стрит')
                 setdebcount(debcount = 1500)
             }
         }
-        if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(map))){
+        if(JSON.stringify(com3) === JSON.stringify(Object.fromEntries(map))){
             el.style = 'hidden'
-            if(JSON.stringify(com3) == JSON.stringify(Object.fromEntries(sa2))){
+            if(JSON.stringify(com3) === JSON.stringify(Object.fromEntries(sa2))){
                 console.log('3пары')
                 setdebcount(debcount = 750)
             }
@@ -216,6 +217,7 @@ let com4 = Object.fromEntries([
         win()
         combim()
 }
+
 function combim(){
     let none = cubikinapole
     let active = cubikinapole
@@ -224,21 +226,19 @@ function combim(){
     if(debcount < 300 && fnone > 0 && factive==0){
         console.log('у вас нет комбинация гг')
         setTimeout(() => {
-            setsa(sa2 = new Map())
-            setmap(map = new Map())
-            setcubikinapole(cubikinapole = [])
             setbtn(btndi = true)
         }, 10);
     }
     if(factive == 0){
         setbtn(btndi  = true)
-        setsa(sa2 = new Map())
-        setmap(map = new Map())
-        setcubikinapole(cubikinapole = [])
     }
     if(factive == 0 && fnone == 0){
         setbtn(btndi = false)
     }
+    if(factive == 0 ){
+        kuda = kuda - 1
+    }
+    setskok(skok = fnone)
 }
 
 function win(el){
@@ -265,6 +265,7 @@ function save(){
         setsa(sa2 = new Map())
         setmap(map = new Map())
         console.log('res: ' + res)
+        setskok(skok = 6)
     }
 }
 
@@ -277,6 +278,23 @@ function save(){
       function give(){
         alert('пока делаю')
       }
+      function Five(){
+        return(five.map((el)=>
+        <div className='blockfive all'>
+            <img src={el.img}/>
+        </div>)
+        )
+      }
+      function Six(){
+        return(six.map((el)=>
+        <div className='blocksix all'>
+            <img src={el.img}/>
+        </div>)
+        )
+      }
+
+
+
   return (
     <div className="App">
         <button onClick={()=>as}>a</button>
@@ -350,14 +368,16 @@ function save(){
                             <div className="blockfive all"></div>
                             <div className="blockfive all"></div>
                             <div className="blockfive all"></div>
+
                         </div>
                         <div className="blockssix">
-                            <div className='blocksix all'/>
-                            <div className='blocksix all'/>
-                            <div className='blocksix all'/>
-                            <div className='blocksix all'/>
-                            <div className='blocksix all'/>
-                            <div className='blocksix all'/>
+                            <div className='blocksix all'></div>
+                            <div className='blocksix all'></div>
+                            <div className='blocksix all'></div>
+                            <div className='blocksix all'></div>
+                            <div className='blocksix all'></div>
+                            <div className='blocksix all'></div>
+                 
                         </div>
                     </div>
                 </div>
