@@ -1,9 +1,9 @@
 
 
  /* eslint-disable */ 
-import matchers from '@testing-library/jest-dom/matchers';
-import {  useState } from 'react';
+import {  useState, useRef } from 'react';
 import './App.css';
+
 
 function App() {
  //Выход
@@ -26,7 +26,8 @@ function App() {
   ])
   let [raundco, setraundco] = useState(0) //Текунщий раунд
   let [debcount, setdebcount] = useState(0) //Счет
-  let [raund, setraund] = useState([
+  let [shekerstyle, setstyle] = useState('active') //Стиль для шехера
+  let [raund, setraund] = useState([ //раунды
     {id:0, counter:0},
     {id:1, counter:0},
     {id:2, counter:0},
@@ -39,13 +40,15 @@ function App() {
     {id:9, counter:0},
   ])
   let [res,setres] = useState(0)
-  let [cubikinapole, setcubikinapole] = useState([])
+  let [cubikinapole, setcubikinapole] = useState([]) //Кубики на поле
 
   let list = []
-  let [skok,setskok] = useState(6)
-  let [btndi,setbtn] = useState(true) //разрешаем братьs
+  let [skok,setskok] = useState(6) //Сколько берется кубиков
+  let [btndi,setbtn] = useState(true) //разрешаем брать
+  
   function sheker(){
     if(btndi){
+        setstyle(shekerstyle = 'none')
         setsa(sa2 = new Map())
         setmap(map = new Map())
         setcubikinapole(cubikinapole = [])
@@ -68,7 +71,7 @@ function App() {
     }
   }
   
-  let com3 = Object.fromEntries([
+let com3 = Object.fromEntries([
     [1,2], [3,2] , [6,2]
 ])
 let com4 = Object.fromEntries([
@@ -79,8 +82,6 @@ let com4 = Object.fromEntries([
   let strit = 0
   let th = 0
   let list2 = list
-  let est = 0
-  console.log(map)
   function posa(){
     new Map(map)
           for(let key of list){
@@ -118,35 +119,17 @@ let com4 = Object.fromEntries([
                 }
             }
         }
-        for(let i=0;i<list2.length;i++){
-            if(list2[i].style == 'none'){
-                est = est + 1
-            }
-        }
-        if(est==6){
-            console.log('комбинаций нет')
-            setbtn(btndi = true)
-            setTimeout(()=>{
-                console.log('зонк')
-                list = []
-                list2 = []
-                setsa(sa2 = new Map())
-                setmap(map = new Map())
-                setcubikinapole(cubikinapole = [])
-                setdebcount(debcount = 'ZONK')
-                strit = 0
-                th = 0
-                debcount = 0
-                save()
-            })
-        }
-        else{
-            console.log('комбинаций есть')
-            setbtn(btndi = false)
+        let active = list2
+        let factive = active.filter(el=> el.style == 'active').length
+        if(factive == 0){
+            // alert('зонк')
+            debcount = 'ZONK'
+            console.log(factive)
+            save()
         }
   }
 
-  let kuda = 6
+
     let [sa2, setsa] = useState(new Map())
     function a(el){ 
         if(sa2.has(el.title) == false){
@@ -201,7 +184,7 @@ let com4 = Object.fromEntries([
             el.style = 'hidden'
             if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(sa2))){
                 console.log('Стрит')
-                setdebcount(debcount = 1500)
+                setdebcount(debcount = 1500 - 150)
             }
         }
         if(JSON.stringify(com3) === JSON.stringify(Object.fromEntries(map))){
@@ -219,12 +202,13 @@ let com4 = Object.fromEntries([
 }
 
 function combim(){
+    setstyle(shekerstyle = 'none')
     let none = cubikinapole
     let active = cubikinapole
     let fnone = none.filter(el=>el.style == 'none').length
     let factive = active.filter(el=> el.style == 'active').length
     if(debcount < 300 && fnone > 0 && factive==0){
-        console.log('у вас нет комбинация гг')
+        console.log('нет комб')
         setTimeout(() => {
             setbtn(btndi = true)
         }, 10);
@@ -237,6 +221,7 @@ function combim(){
     }
     if(factive == 0 ){
         kuda = kuda - 1
+        setstyle(shekerstyle = 'active')
     }
     setskok(skok = fnone)
 }
@@ -268,33 +253,6 @@ function save(){
         setskok(skok = 6)
     }
 }
-
-
-    function as() {
-        var audio = new Audio(); // Создаём новый элемент Audio
-        audio.src = 'best.mp4'; // Указываем путь к звуку "клика"
-        audio.autoplay = true; // Автоматически запускаем
-      }
-      function give(){
-        alert('пока делаю')
-      }
-      function Five(){
-        return(five.map((el)=>
-        <div className='blockfive all'>
-            <img src={el.img}/>
-        </div>)
-        )
-      }
-      function Six(){
-        return(six.map((el)=>
-        <div className='blocksix all'>
-            <img src={el.img}/>
-        </div>)
-        )
-      }
-
-
-
   return (
     <div className="App">
         <button onClick={()=>as}>a</button>
@@ -315,14 +273,15 @@ function save(){
                 <audio src="best.mp3"></audio>
                     <ul>
                     {raund.map(el=>
-                        <li key={el.id}>{el.id +') '+ el.counter}</li>
+                        <li key={el.id}>{el.id + 1 +') '+ el.counter}</li>
                         )}
                     </ul>
                     <h2>Общий счет</h2>
                     <button onClick={()=>save()}>Сохранить</button>
-                    {res >= 5000 ? <h1>Вы выйгарли</h1> : <h1>Вы пока не выйграли</h1>}
+                    <h1>Всего : {res}</h1>
                 </div>
             </div>
+            {/* <Cubs/> */}
             <div className="pole">
                 <div className="ymnojitli">
                     <div className="z g">Z</div>
@@ -341,7 +300,7 @@ function save(){
                     : console.log() }
                   </div>
                     <div className="sheker">
-                        <img src="https://www.zonkpro.ru/zonk/assets/shakers/1.png" alt="" onClick={()=>sheker()}/>
+                        <img src="https://www.zonkpro.ru/zonk/assets/shakers/1.png" alt="" className={shekerstyle} onClick={()=>sheker()}/>
                     </div>
                     <div className="polyakakieto">
                         <div className="blocksone">
