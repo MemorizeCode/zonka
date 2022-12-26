@@ -79,7 +79,7 @@ let com4 = Object.fromEntries([
 ])
   let [map,setmap] = useState(new Map())
 
-  let strit = 0
+  let [strit,setstrit] = useState(0)
   let th = 0
   let list2 = list
   function posa(){
@@ -184,7 +184,8 @@ let com4 = Object.fromEntries([
             el.style = 'hidden'
             if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(sa2))){
                 console.log('Стрит')
-                setdebcount(debcount = 1500 - 150)
+                setdebcount(debcount += 1500 - 150)
+                setstrit(strit = strit + 1)
             }
         }
         if(JSON.stringify(com3) === JSON.stringify(Object.fromEntries(map))){
@@ -202,28 +203,34 @@ let com4 = Object.fromEntries([
 }
 
 function combim(){
+    //proz изменит сколько брать
     setstyle(shekerstyle = 'none')
-    let none = cubikinapole
-    let active = cubikinapole
-    let fnone = none.filter(el=>el.style == 'none').length
-    let factive = active.filter(el=> el.style == 'active').length
-    if(debcount < 300 && fnone > 0 && factive==0){
-        console.log('нет комб')
-        setTimeout(() => {
-            setbtn(btndi = true)
-        }, 10);
-    }
-    if(factive == 0){
+    if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(sa2))){
         setbtn(btndi  = true)
+        setskok(skok = 6)
+        console.log('приз бросок')
+    }else{
+        let none = cubikinapole
+        let active = cubikinapole
+        let fnone = none.filter(el=>el.style == 'none').length
+        let factive = active.filter(el=> el.style == 'active').length
+        if(debcount < 300 && fnone > 0 && factive==0){
+            console.log('нет комб')
+            setTimeout(() => {
+                setbtn(btndi = true)
+            }, 10);
+        }
+        if(factive == 0){
+            setbtn(btndi  = true)
+        }
+        if(factive == 0 && fnone == 0){
+            setbtn(btndi = false)
+        }
+        if(factive == 0 ){
+            setstyle(shekerstyle = 'active')
+        }
+        setskok(skok = fnone)
     }
-    if(factive == 0 && fnone == 0){
-        setbtn(btndi = false)
-    }
-    if(factive == 0 ){
-        kuda = kuda - 1
-        setstyle(shekerstyle = 'active')
-    }
-    setskok(skok = fnone)
 }
 
 function win(el){

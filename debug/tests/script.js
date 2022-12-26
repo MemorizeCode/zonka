@@ -443,15 +443,21 @@
         //         }
         //     }
 
-let obj = [
-        {id:0, title:1, style:''},
-        {id:1, title:2, style: ''},
-        {id:3, title:1, style: ''}
-]
-for(let key of obj){
-        console.log(key.title == 1)
-        if(key.title == 1){
-                key.style = 'active'
-        }
+// let obj = [
+//         {id:0, title:1, style:''},
+//         {id:1, title:2, style: ''},
+//         {id:3, title:1, style: ''}
+// ]
+// for(let key of obj){
+//         console.log(key.title == 1)
+//         if(key.title == 1){
+//                 key.style = 'active'
+//         }
+// }
+// console.log(obj)
+
+
+
+for(let i =0;i<10;i++){
+        console.log(i)
 }
-console.log(obj)
