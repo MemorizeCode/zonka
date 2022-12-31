@@ -47,6 +47,7 @@ function App() {
   let [btndi,setbtn] = useState(true) //разрешаем брать
   
   function sheker(){
+    setpr(prrr = 0)
     if(btndi){
         setstyle(shekerstyle = 'none')
         setsa(sa2 = new Map())
@@ -57,9 +58,9 @@ function App() {
           let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
           let obj = {
             id: Date.now() + Math.random(),
-            title: cubs[randomcub].title,
-            img: cubs[randomcub].img,
-            style: cubs[randomcub].style,
+            title: cubs[i].title,
+            img: cubs[i].img,
+            style: cubs[i].style,
           }
           list.push(obj)
         }
@@ -201,14 +202,16 @@ let com4 = Object.fromEntries([
         win()
         combim()
 }
-
+let [prrr,setpr] = useState(0)
 function combim(){
     //proz изменит сколько брать
     setstyle(shekerstyle = 'none')
     if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(sa2))){
-        setbtn(btndi  = true)
+        setstyle(shekerstyle = 'active')
         setskok(skok = 6)
         console.log('приз бросок')
+        setbtn(btndi  = true)
+        setpr(prrr = prrr + 1)
     }else{
         let none = cubikinapole
         let active = cubikinapole
@@ -233,6 +236,8 @@ function combim(){
     }
 }
 
+
+
 function win(el){
     if(debcount>=300){
         console.log('вы можете сохранить или продолжить')
@@ -240,11 +245,19 @@ function win(el){
         console.log('пока нельзя сохранить')
     }
 }
+function Priz(){
+    if(prrr == 1){
+        return (<h1>Priz brosok</h1>)
+    }
+}
+
+
 let [c,setc] = useState(0)
 function save(){
     if(debcount <300){
         console.log('Вы не можете сохранить')
     }else{
+        setpr(prrr = 0)
         setbtn(btndi = true)
         console.log('вы можете сохранить')
         raund = raund[raundco].counter = debcount
@@ -307,6 +320,7 @@ function save(){
                     : console.log() }
                   </div>
                     <div className="sheker">
+                        <Priz />
                         <img src="https://www.zonkpro.ru/zonk/assets/shakers/1.png" alt="" className={shekerstyle} onClick={()=>sheker()}/>
                     </div>
                     <div className="polyakakieto">
