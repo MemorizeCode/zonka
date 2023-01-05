@@ -3,7 +3,7 @@
  /* eslint-disable */ 
 import {  useState, useRef } from 'react';
 import './App.css';
-
+import {Howl, Howler} from 'howler';
 
 function App() {
  //Выход
@@ -47,29 +47,36 @@ function App() {
   let [btndi,setbtn] = useState(true) //разрешаем брать
   
   function sheker(){
-    setpr(prrr = 0)
-    if(btndi){
-        setstyle(shekerstyle = 'none')
-        setsa(sa2 = new Map())
-        setmap(map = new Map())
-        setcubikinapole(cubikinapole = [])
-        setbtn(btndi = false)
-        for(let i=0;i<skok;i++){
-          let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
-          let obj = {
-            id: Date.now() + Math.random(),
-            title: cubs[i].title,
-            img: cubs[i].img,
-            style: cubs[i].style,
-          }
-          list.push(obj)
+    if(debcount >= 300){
+        setkuda(kuda_stavit = kuda_stavit - 1)
+    }
+    setstyle(shekerstyle = 'tresem')
+    setTimeout(() => {
+        setpr(prrr = 0)
+        if(btndi){
+            setstyle(shekerstyle = 'none')
+            setsa(sa2 = new Map())
+            setmap(map = new Map())
+            setcubikinapole(cubikinapole = [])
+            setbtn(btndi = false)
+            for(let i=0;i<skok;i++){
+              let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
+              let obj = {
+                id: Date.now() + Math.random(),
+                title: cubs[randomcub].title,
+                img: cubs[randomcub].img,
+                style: cubs[randomcub].style,
+              }
+              list.push(obj)
+            }
+            setcubikinapole([...cubikinapole, ...list])
+            posa()
         }
-        setcubikinapole([...cubikinapole, ...list])
-        posa()
-    }
-    else{
-        console.log('вы должны взять кубики которые ')
-    }
+        else{
+            console.log('вы должны взять кубики которые ')
+        }
+        
+    }, 2000);
   }
   
 let com3 = Object.fromEntries([
@@ -124,7 +131,7 @@ let com4 = Object.fromEntries([
         let factive = active.filter(el=> el.style == 'active').length
         if(factive == 0){
             // alert('зонк')
-            debcount = 'ZONK'
+            debcount =  'ZONK'
             console.log(factive)
             save()
         }
@@ -132,7 +139,9 @@ let com4 = Object.fromEntries([
 
 
     let [sa2, setsa] = useState(new Map())
-    function a(el){ 
+    let [kuda_stavit, setkuda] = useState(6)
+    function a(el){
+
         if(sa2.has(el.title) == false){
             setsa(sa2.set(el.title, 1))
         }
@@ -140,6 +149,24 @@ let com4 = Object.fromEntries([
             setsa(sa2.set(el.title, sa2.get(el.title)+1))
         }
         if(el.style == 'active'){
+            if(kuda_stavit == 6){
+                setsixb([...sixb , el])
+            }
+            else if(kuda_stavit == 5){
+                setfiveb([...fiveb, el])
+            } 
+            else if(kuda_stavit == 4){
+                setfourb([...fourb, el])
+            } 
+            else if(kuda_stavit == 3){
+                setthreeb([...threeb, el])
+            } 
+            else if(kuda_stavit == 2){
+                settwob([...twob, el])
+            } 
+            else if(kuda_stavit == 1){
+                setoneb([...oneb, el])
+            } 
             el.style = 'hidden'
             if(el.title != 1 || el.title != 5){
                 for(let z of sa2){   
@@ -219,6 +246,7 @@ function combim(){
         let factive = active.filter(el=> el.style == 'active').length
         if(debcount < 300 && fnone > 0 && factive==0){
             console.log('нет комб')
+            setkuda(kuda_stavit = kuda_stavit - 1)
             setTimeout(() => {
                 setbtn(btndi = true)
             }, 10);
@@ -256,13 +284,26 @@ let [c,setc] = useState(0)
 function save(){
     if(debcount <300){
         console.log('Вы не можете сохранить')
-    }else{
+    }
+
+    else{
+        setkuda(kuda_stavit = 6)
+        setoneb(oneb = [])
+        settwob(twob = [])
+        setthreeb(threeb = [])
+        setfourb(fourb = [])
+        setfiveb(fiveb = [])
+        setsixb(sixb = [])
         setpr(prrr = 0)
         setbtn(btndi = true)
         console.log('вы можете сохранить')
         raund = raund[raundco].counter = debcount
         setraundco(raundco = raundco + 1)
-        setres(res= res + debcount)
+        if(debcount == 'ZONK'){
+            //
+        }else{
+            setres(res = res + debcount)
+        }
         setdebcount(debcount = 0)
         setcubikinapole(cubikinapole = [])
         list = []
@@ -273,6 +314,39 @@ function save(){
         setskok(skok = 6)
     }
 }
+    let [oneb, setoneb] = useState([
+        // {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
+    ])
+    let [twob, settwob] = useState([
+        // {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
+        // {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" , style: 'none'},
+    ])
+    let [threeb, setthreeb] = useState([
+        // {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
+        // {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" , style: 'none'},
+        // {id:3,title:3, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" , style: 'none'},
+    ])
+    let [fourb, setfourb] = useState([
+        // {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
+        // {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" , style: 'none'},
+        // {id:3,title:3, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" , style: 'none'},
+        // {id:4,title:4, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/4.png" , style: 'none'},
+    ])
+    let [fiveb, setfiveb] = useState([
+        // {id:5,title:5, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" , style: 'none'},
+        // {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" , style: 'none'},
+        // {id:3,title:3, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" , style: 'none'},
+        // {id:4,title:4, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/4.png" , style: 'none'},
+        // {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
+    ])
+    let [sixb , setsixb] = useState([
+        // {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
+        // {id:2,title:2, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" , style: 'none'},
+        // {id:3,title:3, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" , style: 'none'},
+        // {id:4,title:4, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/4.png" , style: 'none'},
+        // {id:5,title:5, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" , style: 'none'},
+        // {id:6,title:6, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/6.png" , style: 'none'},   
+    ])
   return (
     <div className="App">
         <button onClick={()=>as}>a</button>
@@ -325,39 +399,39 @@ function save(){
                     </div>
                     <div className="polyakakieto">
                         <div className="blocksone">
-                            <div className="blockone all"></div>
+                            {oneb?.[0]?.img ? <img className='blockone all' src={oneb[0].img} /> : <div className='blockone all'></div>}
                         </div>
                         <div className="blockstwo">
-                            <div className="blocktwo all"></div>
-                            <div className="blocktwo all"></div>
+                            {twob?.[0]?.img ? <img className='blocktwo all' src={twob[0].img} /> : <div className='blocktwo all'></div>}
+                            {twob?.[1]?.img ? <img className='blocktwo all' src={twob[1].img} /> : <div className='blocktwo all'></div>}
                         </div>
                         <div className="blocksthree">
-                            <div className="blockthree all"></div>
-                            <div className="blockthree all"></div>
-                            <div className="blockthree all"></div>
+                            {threeb?.[0]?.img ? <img className='blockthree all' src={threeb[0].img} /> : <div className='blockthree all'></div>}
+                            {threeb?.[1]?.img ? <img className='blockthree all' src={threeb[1].img} /> : <div className='blockthree all'></div>}
+                            {threeb?.[2]?.img ? <img className='blockthree all' src={threeb[2].img} /> : <div className='blockthree all'></div>}
                         </div>
                         <div className="blocksfour">
-                            <div className="blockfour all"></div>
-                            <div className="blockfour all"></div>
-                            <div className="blockfour all"></div>
-                            <div className="blockfour all"></div>
+                          
+                            {fourb?.[0]?.img ? <img className='blockfour all' src={fourb[0].img} /> : <div className='blockfour all'></div>}
+                            {fourb?.[1]?.img ? <img className='blockfour all' src={fourb[1].img} /> : <div className='blockfour all'></div>}
+                            {fourb?.[2]?.img ? <img className='blockfour all' src={fourb[2].img} /> : <div className='blockfour all'></div>}
+                            {fourb?.[3]?.img ? <img className='blockfour all' src={fourb[3].img} /> : <div className='blockfour all'></div>}
                         </div>
                         <div className="blocksfive">
-                            <div className="blockfive all"></div>
-                            <div className="blockfive all"></div>
-                            <div className="blockfive all"></div>
-                            <div className="blockfive all"></div>
-                            <div className="blockfive all"></div>
-
+                            {fiveb?.[0]?.img ? <img className='blockfive all' src={fiveb[0].img} /> : <div className='blockfive all'></div>}
+                            {fiveb?.[1]?.img ? <img className='blockfive all' src={fiveb[1].img} /> : <div className='blockfive all'></div>}
+                            {fiveb?.[2]?.img ? <img className='blockfive all' src={fiveb[2].img} /> : <div className='blockfive all'></div>}
+                            {fiveb?.[3]?.img ? <img className='blockfive all' src={fiveb[3].img} /> : <div className='blockfive all'></div>}
+                            {fiveb?.[4]?.img ? <img className='blockfive all' src={fiveb[4].img} /> : <div className='blockfive all'></div>}
                         </div>
                         <div className="blockssix">
-                            <div className='blocksix all'></div>
-                            <div className='blocksix all'></div>
-                            <div className='blocksix all'></div>
-                            <div className='blocksix all'></div>
-                            <div className='blocksix all'></div>
-                            <div className='blocksix all'></div>
-                 
+                            {sixb?.[0]?.img ? <img className='blocksix all' src={sixb[0].img} /> : <div className='blocksix all'></div>}
+                            {sixb?.[1]?.img ? <img className='blocksix all' src={sixb[1].img} /> : <div className='blocksix all'></div>}
+                            {sixb?.[2]?.img ? <img className='blocksix all' src={sixb[2].img} /> : <div className='blocksix all'></div>}
+                            {sixb?.[3]?.img ? <img className='blocksix all' src={sixb[3].img} /> : <div className='blocksix all'></div>}
+                            {sixb?.[4]?.img ? <img className='blocksix all' src={sixb[4].img} /> : <div className='blocksix all'></div>}
+                            {sixb?.[5]?.img ? <img className='blocksix all' src={sixb[5].img} /> : <div className='blocksix all'></div>}
+                            
                         </div>
                     </div>
                 </div>

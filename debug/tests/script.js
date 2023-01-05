@@ -458,6 +458,33 @@
 
 
 
-for(let i =0;i<10;i++){
-        console.log(i)
-}
+// for(let i =0;i<10;i++){
+//         console.log(i)
+// }
+
+// console.log('tresem')
+// setTimeout(()=>{
+//         console.log('ne tresem')
+// },200)
+// console.log('click')
+
+<div className="blockssix">
+<div className='blocksix all'>
+    <img src={sixb[0].img} />
+</div>
+<div className='blocksix all'>
+    <img src={sixb[1].img} />
+</div>
+<div className='blocksix all'>
+    <img src={sixb[2].img} />
+</div>
+<div className='blocksix all'>
+    <img src={sixb[3].img} />
+</div>
+<div className='blocksix all'>
+    <img src={sixb[4].img} />
+</div>
+<div className='blocksix all'>
+    <img src={sixb[5].img} />
+</div>
+</div>
