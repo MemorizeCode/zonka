@@ -1,6 +1,5 @@
 
-
- /* eslint-disable */ 
+//  /* eslint-disable */ 
 import {  useState, useRef } from 'react';
 import './App.css';
 import {Howl, Howler} from 'howler';
@@ -132,6 +131,7 @@ let com4 = Object.fromEntries([
         if(factive == 0){
             // alert('зонк')
             debcount =  'ZONK'
+            setstyle(shekerstyle = 'active')
             console.log(factive)
             save()
         }
@@ -347,9 +347,26 @@ function save(){
         // {id:5,title:5, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" , style: 'none'},
         // {id:6,title:6, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/6.png" , style: 'none'},   
     ])
+    function Tiwin(){
+        if(res >= 5000){
+            if(confirm('Вы выйграли! Сначала?')){
+                window.location.reload()
+           }else{
+            alert('а я все равно перезагружу')
+            window.location.reload()
+           }
+        }
+        else{
+            return (<h2>Вы пока не выйграли</h2>)
+        }
+    }
+
+   function givemoney(){
+    setres(res = 5000)
+   } 
   return (
     <div className="App">
-        <button onClick={()=>as}>a</button>
+        <button onClick={()=>givemoney()}>Дать 5к очков для откладки</button>
 
      <div className="container" id='test'>
         <div className="header">
@@ -370,9 +387,9 @@ function save(){
                         <li key={el.id}>{el.id + 1 +') '+ el.counter}</li>
                         )}
                     </ul>
-                    <h2>Общий счет</h2>
                     <button onClick={()=>save()}>Сохранить</button>
                     <h1>Всего : {res}</h1>
+                    <Tiwin />
                 </div>
             </div>
             {/* <Cubs/> */}
