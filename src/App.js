@@ -1,17 +1,20 @@
 
-//  /* eslint-disable */ 
+//Штука чтобы не вылазили ошибки и приложение не крашилось 
+ /* eslint-disable */ 
+
+//Импортирую реакт и стили
 import {  useState, useRef } from 'react';
 import './App.css';
-import {Howl, Howler} from 'howler';
+
 
 function App() {
  //Выход
   function exit(){
-    alert('Выйти')
+    alert('тут типо выход в главное меню, но его нет')
   }
   //Звуки
   function music(){
-    alert('V razrabotke')
+    alert('Музыку сьели авторские права')
   }
   //Массив кубиков
   let [cubs] = useState([
@@ -38,14 +41,15 @@ function App() {
     {id:8, counter:0},
     {id:9, counter:0},
   ])
-  let [res,setres] = useState(0)
+  let [res,setres] = useState(0) //Общий счет
   let [cubikinapole, setcubikinapole] = useState([]) //Кубики на поле
 
   let list = []
   let [skok,setskok] = useState(6) //Сколько берется кубиков
-  let [btndi,setbtn] = useState(true) //разрешаем брать
+  let [btndi,setbtn] = useState(true) //Можно ли брать кубики
   
-  function sheker(){
+  //Выкладываем кубики на поле
+  function sheker(){ 
     if(debcount >= 300){
         setkuda(kuda_stavit = kuda_stavit - 1)
     }
@@ -74,21 +78,21 @@ function App() {
         else{
             console.log('вы должны взять кубики которые ')
         }
-        
     }, 2000);
   }
-  
-let com3 = Object.fromEntries([
+  //Комбинации
+let com3 = Object.fromEntries([ 
     [1,2], [3,2] , [6,2]
 ])
 let com4 = Object.fromEntries([
     [1,1],[2,1],[3,1],[4,1],[5,1],[6,1]
 ])
-  let [map,setmap] = useState(new Map())
 
+  let [map,setmap] = useState(new Map())
   let [strit,setstrit] = useState(0)
   let th = 0
   let list2 = list
+  //Считаем сколько кубиков одного номинала и добавляем стиль кубику если его можно взять
   function posa(){
     new Map(map)
           for(let key of list){
@@ -99,6 +103,7 @@ let com4 = Object.fromEntries([
                 setmap(map =map.set(key.title, map.get(key.title)+1))
             }
         }
+        
         if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(map))){
            console.log('Выпал стрит')
            for(let i=0;i<list2.length;i++){
@@ -140,14 +145,15 @@ let com4 = Object.fromEntries([
 
     let [sa2, setsa] = useState(new Map())
     let [kuda_stavit, setkuda] = useState(6)
+    //клик на кубик
     function a(el){
-
         if(sa2.has(el.title) == false){
             setsa(sa2.set(el.title, 1))
         }
         else{
             setsa(sa2.set(el.title, sa2.get(el.title)+1))
         }
+        //в какую строчку ставим
         if(el.style == 'active'){
             if(kuda_stavit == 6){
                 setsixb([...sixb , el])
@@ -168,16 +174,15 @@ let com4 = Object.fromEntries([
                 setoneb([...oneb, el])
             } 
             el.style = 'hidden'
+            //Сколько мы должны дать очков
             if(el.title != 1 || el.title != 5){
                 for(let z of sa2){   
                     if(z[0] === el.title && z[1] == 3 && z[0] !== 1 && z[0] !==5){
                         setdebcount(debcount = debcount+ Number(z[0] + '00'))
-                        
                     }
                     else if(z[0] === el.title && z[1] > 3 && z[0] !== 1 && z[0] !==5){
                         setdebcount(debcount = debcount + Number(z[0] * 2 + '00'))
                         setdebcount(debcount = debcount - (z[0]+ '00'))
-                        
                     }}
         }
         if(sa2.has(el.title) && el.title === 1){
@@ -230,8 +235,8 @@ let com4 = Object.fromEntries([
         combim()
 }
 let [prrr,setpr] = useState(0)
+//Есть ли комбинации
 function combim(){
-    //proz изменит сколько брать
     setstyle(shekerstyle = 'none')
     if(JSON.stringify(com4) === JSON.stringify(Object.fromEntries(sa2))){
         setstyle(shekerstyle = 'active')
@@ -265,7 +270,7 @@ function combim(){
 }
 
 
-
+//Это для откладки
 function win(el){
     if(debcount>=300){
         console.log('вы можете сохранить или продолжить')
@@ -273,6 +278,7 @@ function win(el){
         console.log('пока нельзя сохранить')
     }
 }
+//Приз бросок
 function Priz(){
     if(prrr == 1){
         return (<h1>Priz brosok</h1>)
@@ -281,11 +287,11 @@ function Priz(){
 
 
 let [c,setc] = useState(0)
+//Сохраняем и удаляем то что надо
 function save(){
     if(debcount <300){
         console.log('Вы не можете сохранить')
     }
-
     else{
         setkuda(kuda_stavit = 6)
         setoneb(oneb = [])
@@ -314,6 +320,7 @@ function save(){
         setskok(skok = 6)
     }
 }
+    //Ячейки для кубиков
     let [oneb, setoneb] = useState([
         // {id:1,title:1, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/1.png", style: 'none'},
     ])
@@ -347,6 +354,10 @@ function save(){
         // {id:5,title:5, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" , style: 'none'},
         // {id:6,title:6, img:"https://www.zonkpro.ru/zonk/assets/dice/mini/6.png" , style: 'none'},   
     ])
+    
+
+
+    //Выйграл или нет?
     function Tiwin(){
         if(res >= 5000){
             if(confirm('Вы выйграли! Сначала?')){
@@ -360,7 +371,7 @@ function save(){
             return (<h2>Вы пока не выйграли</h2>)
         }
     }
-
+    //Дать 5к для откладки
    function givemoney(){
     setres(res = 5000)
    } 
@@ -370,8 +381,8 @@ function save(){
 
      <div className="container" id='test'>
         <div className="header">
-            <button onClick={()=>exit}>Выйти</button>
-            <button onClick={()=>music}>Выключить звук</button>
+            <button onClick={()=>exit()}>Выйти</button>
+            <button onClick={()=>music()}>Выключить звук</button>
         </div>
         <div className="main">
             <div className="counter">
@@ -516,19 +527,19 @@ function save(){
                 <div className="hz_kakoe_name">
                     <img src="https://www.zonkpro.ru/zonk/assets/dice/mini/1.png" alt=""/>
                     <img src="https://www.zonkpro.ru/zonk/assets/dice/mini/1.png" alt=""/>
-                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" alt=""/>
-                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" alt=""/>
-                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" alt=""/>
-                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" alt=""/>
+                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" alt=""/>
+                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" alt=""/>
+                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/6.png" alt=""/>
+                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/6.png" alt=""/>
                     <p>3пары-750</p>
                 </div>
                 <div className="opiaty_hz_name">
                     <img src="https://www.zonkpro.ru/zonk/assets/dice/mini/1.png" alt=""/>
                     <img src="https://www.zonkpro.ru/zonk/assets/dice/mini/2.png" alt=""/>
-                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" alt=""/>
+                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/3.png" alt=""/>
                     <img src="https://www.zonkpro.ru/zonk/assets/dice/mini/4.png" alt=""/>
                     <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" alt=""/>
-                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/5.png" alt=""/>
+                    <img src="	https://www.zonkpro.ru/zonk/assets/dice/mini/6.png" alt=""/>
                     <p>стрит-1500</p>
                 </div>
             </div>
