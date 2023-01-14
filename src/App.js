@@ -49,36 +49,41 @@ function App() {
   let [btndi,setbtn] = useState(true) //Можно ли брать кубики
   
   //Выкладываем кубики на поле
-  function sheker(){ 
+  let [firstgame, setfirstgame] = useState(1)
+  function sheker(){
     if(debcount >= 300){
         setkuda(kuda_stavit = kuda_stavit - 1)
     }
-    setstyle(shekerstyle = 'tresem')
-    setTimeout(() => {
-        setpr(prrr = 0)
-        if(btndi){
-            setstyle(shekerstyle = 'none')
-            setsa(sa2 = new Map())
-            setmap(map = new Map())
-            setcubikinapole(cubikinapole = [])
-            setbtn(btndi = false)
-            for(let i=0;i<skok;i++){
-              let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
-              let obj = {
-                id: Date.now() + Math.random(),
-                title: cubs[randomcub].title,
-                img: cubs[randomcub].img,
-                style: cubs[randomcub].style,
-              }
-              list.push(obj)
+    if(firstgame == 1){ //хз как пояснить
+        setfirstgame(firstgame = 1)
+        setstyle(shekerstyle = 'tresem')
+        setTimeout(() => {
+            setpr(prrr = 0)
+            if(btndi){
+                setstyle(shekerstyle = 'none')
+                setsa(sa2 = new Map())
+                setmap(map = new Map())
+                setcubikinapole(cubikinapole = [])
+                // setbtn(btndi = false)
+                for(let i=0;i<skok;i++){
+                  let randomcub = Math.floor(Math.random() * (6 - 0) + 0)
+                  let obj = {
+                    id: Date.now() + Math.random(),
+                    title: cubs[randomcub].title,
+                    img: cubs[randomcub].img,
+                    style: cubs[randomcub].style,
+                  }
+                  list.push(obj)
+                }
+                setcubikinapole([...cubikinapole, ...list])
+                posa()
             }
-            setcubikinapole([...cubikinapole, ...list])
-            posa()
-        }
-        else{
-            console.log('вы должны взять кубики которые ')
-        }
-    }, 2000);
+            else{
+                console.log('вы должны взять кубики которые ')
+            }
+        }, 700);
+    } 
+    setfirstgame(firstgame = 0)
   }
   //Комбинации
 let com3 = Object.fromEntries([ 
@@ -147,6 +152,7 @@ let com4 = Object.fromEntries([
     let [kuda_stavit, setkuda] = useState(6)
     //клик на кубик
     function a(el){
+
         if(sa2.has(el.title) == false){
             setsa(sa2.set(el.title, 1))
         }
@@ -155,6 +161,8 @@ let com4 = Object.fromEntries([
         }
         //в какую строчку ставим
         if(el.style == 'active'){
+            setfirstgame(firstgame = 1)
+            setskok(skok = skok - 1)
             if(kuda_stavit == 6){
                 setsixb([...sixb , el])
             }
@@ -265,7 +273,7 @@ function combim(){
         if(factive == 0 ){
             setstyle(shekerstyle = 'active')
         }
-        setskok(skok = fnone)
+        // setskok(skok = fnone)
     }
 }
 
@@ -293,6 +301,7 @@ function save(){
         console.log('Вы не можете сохранить')
     }
     else{
+        setfirstgame(firstgame = 1)
         setkuda(kuda_stavit = 6)
         setoneb(oneb = [])
         settwob(twob = [])
